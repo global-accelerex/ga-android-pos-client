@@ -1,3 +1,3 @@
-include ':GlobalAccelerexAndroidPosClientLibrary'
-include ':app'
+include ':pos-client-library'
+include ':example'
 rootProject.name = "AndroidPosClientLibrary"

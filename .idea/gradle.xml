@@ -11,8 +11,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/GlobalAccelerexAndroidPosClientLibrary" />
-            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/example" />
+            <option value="$PROJECT_DIR$/pos-client-library" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

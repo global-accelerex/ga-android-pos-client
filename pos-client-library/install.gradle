@@ -1,13 +1,13 @@
 apply plugin: 'com.github.dcendents.android-maven'
 
-group = 'com.globalaccelerex.ga-android-pos-client'
+group = 'com.globalaccelerex.android'
 
 install {
     repositories.mavenInstaller {
         pom {
             project {
                 packaging 'aar'
-                groupId 'com.globalaccelerex.ga-android-pos-client'
+                groupId 'com.globalaccelerex.android'
                 artifactId 'ga-android-pos-client'
                 name 'ga-android-pos-client'
                 description ' A library to assist integration of Global Accelerex POS services to third party android applications.'
