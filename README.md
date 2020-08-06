@@ -107,9 +107,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        
+        //Step 3
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == GaResponseKeys.CARD_PURCHASE_REQUEST_CODE) {
-                val cardTransactionResponse: CardTransactionResponse? = supportLibrary.getCardTransactionResponse(data)
+            if (requestCode == GaResponseKeys.CARD_PURCHASE_REQUEST_CODE) {            //step 3.1
+                val cardTransactionResponse: CardTransactionResponse? = supportLibrary.getCardTransactionResponse(data) //step 3.2
                 // Perform actions with the returned data
             }
         }
@@ -120,7 +122,38 @@ class MainActivity : AppCompatActivity() {
 This step has been covered already in the Getting Started section
 
 ### Step 2 (Initializing a transaction)
-Global accelerex POS may support different transactions such as Card Present Transactions (CP), Card Not Present Transactions (CNP) and Mobile Money Transactions (MM) depending on your location.
+Global accelerex POS may support different transactions such as Card Present Transactions (CP), Card Not Present Transactions (CNP) and Mobile Money Transactions (MM) depending on your location. Select a corresponding function to carry out your preferred transaction.
+
+### Step 2.1 (Setting the amount)
+Any amount entered should be in `Double` format.
+
+### Step 2.2 (Setting the transaction type)
+A wide variety of transactions types can be made with (CP, CNP AND MM) transactions. `TransactionType` contains an exhaustive list of possible transactions to choose from.
+Note: 
+CP - Card Present
+CNP - Card Not Present
+MM - Mobile Money
+
+### Step 2.3 (Setting the print mode)
+After making a transaction, you can decide to design your own custom receipt format in which case `customPrint` is set to `true`, or use the default print format in which case `customPrint` is set to `false`
+
+### Step 2.4 (Setting the calling component)
+As stated earlier, these functions should be called from an `Activity` or a `Fragment`.
+The calling component set to `this` refers to the activity or fragment that the functions are called from.
+
+### Step 3 (Retrieving transaction response)
+After a transaction is called, the POS device takes over and performs all the neccesary procedures involved in carrying that transaction. When this is done, the transaction details are returned to your application. To retrieve this response, you'll have to listen for it in the activity or fragment's `onActivityResult`.
+
+### Step 3.1 (Listening for your transaction)
+For every `TransactionType` value, there is a corresponding `GAResponseKeys` key for it. To listen for the response details compare the requestCode to the matching transaction type. 
+
+### Step 3.2 (Retrieving transaction response data)
+After listening for a particular transaction, you can get the response by calling a get function related to the transaction that was called from the client library.
+
+
+All transactions usually follow the same format. However you can take a look at the example project to see how certain transactions are made.
+
+
 
 
 
