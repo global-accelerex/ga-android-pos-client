@@ -155,6 +155,12 @@ After listening for a particular transaction, you can get the response by callin
 All transactions usually follow the same format. However you can take a look at the example project for more details.
 
 
+# Issues
+If you're experiencing technical difficulties or you have suggestions for the library, please raise an issue at: 
+https://github.com/global-accelerex/ga-android-pos-client/issues
+
+
+
 
 
 
