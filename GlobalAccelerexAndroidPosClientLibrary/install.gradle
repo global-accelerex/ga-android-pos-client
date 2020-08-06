@@ -1,0 +1,39 @@
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = 'com.globalaccelerex.ga-android-pos-client'
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+                groupId 'com.globalaccelerex.ga-android-pos-client'
+                artifactId 'ga-android-pos-client'
+                name 'ga-android-pos-client'
+                description ' A library to assist integration of Global Accelerex POS services to third party android applications.'
+                url 'https://github.com/global-accelerex/ga-android-pos-client'
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'Global Accelerex'
+                        name 'Global Accelerex'
+                        email 'developer@globalAccelerex.com'
+                    }
+                }
+
+                scm {
+                    connection 'https://www.globalaccelerex.com/'
+                    developerConnection 'https://www.globalaccelerex.com/'
+                    url 'https://github.com/global-accelerex/ga-android-pos-client'
+                }
+            }
+        }
+    }
+}
