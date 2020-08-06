@@ -151,7 +151,9 @@ For every `TransactionType` value, there is a corresponding `GAResponseKeys` key
 After listening for a particular transaction, you can get the response by calling a get function related to the transaction that was called from the client library.
 
 
-All transactions usually follow the same format. However you can take a look at the example project to see how certain transactions are made.
+
+All transactions usually follow the same format. However you can take a look at the example project for more details.
+
 
 
 
