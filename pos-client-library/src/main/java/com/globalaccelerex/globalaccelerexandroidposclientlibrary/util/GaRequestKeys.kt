@@ -1,10 +1,10 @@
 package com.globalaccelerex.globalaccelerexandroidposclientlibrary.util
 
-object GaResponseKeys {
+object GaRequestKeys {
     const val PARAMETERS_REQUEST_CODE = 1001
     const val KEY_EXCHANGE_REQUEST_CODE = 1002
-    const val CARD_PURCHASE_REQUEST_CODE = 1003
-    const val CARD_PURCHASE_WITH_CB_REQUEST_CODE = 1004
+    const val CP_PURCHASE_REQUEST_CODE = 1003
+    const val CP_PURCHASE_WITH_CASHBACK_REQUEST_CODE = 1004
     const val MOBILE_MONEY_PURCHASE_REQUEST_CODE = 1005
     const val MOBILE_MONEY_STATUS_CHECK_REQUEST_CODE = 1006
     const val CNP_PURCHASE_REQUEST_CODE = 1007

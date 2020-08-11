@@ -16,16 +16,16 @@ import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.B
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.TRANSACTION_TYPE_REFUND
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.TRANSACTION_TYPE_REVERSAL
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.*
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaResponseKeys.CNP_PURCHASE_REQUEST_CODE
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaResponseKeys.CNP_PURCHASE_WITH_CB_REQUEST_CODE
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaResponseKeys.MOBILE_MONEY_STATUS_CHECK_REQUEST_CODE
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaResponseKeys.CARD_PURCHASE_REQUEST_CODE
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaResponseKeys.CARD_PURCHASE_WITH_CB_REQUEST_CODE
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaResponseKeys.CNP_CARD_BALANCE_REQUEST_CODE
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaResponseKeys.CNP_PRE_AUTH_COMPLETION_REQUEST_CODE
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaResponseKeys.CNP_PRE_AUTH_PURCHASE_REQUEST_CODE
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaResponseKeys.CNP_REFUND_REQUEST_CODE
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaResponseKeys.MOBILE_MONEY_PURCHASE_REQUEST_CODE
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CNP_PURCHASE_REQUEST_CODE
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CNP_PURCHASE_WITH_CB_REQUEST_CODE
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.MOBILE_MONEY_STATUS_CHECK_REQUEST_CODE
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CP_PURCHASE_REQUEST_CODE
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CP_PURCHASE_WITH_CASHBACK_REQUEST_CODE
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CNP_CARD_BALANCE_REQUEST_CODE
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CNP_PRE_AUTH_COMPLETION_REQUEST_CODE
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CNP_PRE_AUTH_PURCHASE_REQUEST_CODE
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CNP_REFUND_REQUEST_CODE
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.MOBILE_MONEY_PURCHASE_REQUEST_CODE
 import com.google.gson.Gson
 
 internal class TransactionRequest {
@@ -45,9 +45,9 @@ internal class TransactionRequest {
         val intent = Intent(TRANSACTION_REQUEST_INTENT_ADDRESS)
         intent.putExtra(REQUEST_DATA_TAG, transJson)
         if (callingComponent is Fragment) {
-            callingComponent.startActivityForResult(intent, CARD_PURCHASE_REQUEST_CODE)
+            callingComponent.startActivityForResult(intent, CP_PURCHASE_REQUEST_CODE)
         } else if (callingComponent is Activity) {
-            callingComponent.startActivityForResult(intent, CARD_PURCHASE_REQUEST_CODE)
+            callingComponent.startActivityForResult(intent, CP_PURCHASE_REQUEST_CODE)
         }
     }
 
@@ -68,9 +68,9 @@ internal class TransactionRequest {
         val intent = Intent(TRANSACTION_REQUEST_INTENT_ADDRESS)
         intent.putExtra(REQUEST_DATA_TAG, transJson)
         if (callingComponent is Fragment) {
-            callingComponent.startActivityForResult(intent, CARD_PURCHASE_WITH_CB_REQUEST_CODE)
+            callingComponent.startActivityForResult(intent, CP_PURCHASE_WITH_CASHBACK_REQUEST_CODE)
         } else if (callingComponent is Activity) {
-            callingComponent.startActivityForResult(intent, CARD_PURCHASE_WITH_CB_REQUEST_CODE)
+            callingComponent.startActivityForResult(intent, CP_PURCHASE_WITH_CASHBACK_REQUEST_CODE)
         }
     }
 

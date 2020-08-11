@@ -1,4 +1,6 @@
 package com.globalaccelerex.androidposclientlibrary
 
-class WrongParameterTest {
+class PrintingSample {
+
+
 }
