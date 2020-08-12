@@ -6,8 +6,8 @@ import kotlinx.coroutines.*
 
 class ReceiptFormat(private val context: Context) {
 
-    var printField = arrayListOf<PrintField>()
-    var stringField = arrayListOf<StringField>()
+    private val printField = arrayListOf<PrintField>()
+    private val stringField = arrayListOf<StringField>()
 
     fun addLineDivider(){
         addSingleLine(text =  "-".repeat(32), textAlignment = TextAlignment.ALIGN_CENTER)
@@ -36,8 +36,6 @@ class ReceiptFormat(private val context: Context) {
         )
     }
 
-
-
     fun generateReceipt(): Receipt {
         var path: String? = ""
         CoroutineScope(Dispatchers.IO).launch {
@@ -61,7 +59,7 @@ enum class TextAlignment {
     ALIGN_LEFT, ALIGN_RIGHT, ALIGN_CENTER
 }
 
-fun TextAlignment.getValue(): String{
+internal fun TextAlignment.getValue(): String{
     return when (this) {
         TextAlignment.ALIGN_LEFT -> "left"
         TextAlignment.ALIGN_CENTER -> "center"
@@ -73,7 +71,7 @@ enum class FontSize {
     SMALL, LARGE
 }
 
-fun FontSize.getValue(): String {
+internal fun FontSize.getValue(): String {
     return when(this){
         FontSize.SMALL -> "small"
         FontSize.LARGE -> "large"
