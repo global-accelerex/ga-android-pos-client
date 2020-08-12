@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.util.Log
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.GAClientLib
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.PosInformation
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.printing.FontSize
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.printing.TextAlignment
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.printing.ReceiptFormat
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.*
 import kotlinx.android.synthetic.main.activity_main.*
@@ -69,10 +71,16 @@ class ActivitySample : AppCompatActivity() {
         }
 
         print_receipt.setOnClickListener {
-            val receiptFormat = ReceiptFormat(this)
-            receiptFormat.addSingleLine("This is the first printing line")
-            receiptFormat.addSingleLine("Just to confirm!")
-            clientLib.printReceipt(receiptFormat = receiptFormat.generateReceipt(), callingComponent = this)
+            val receiptFormat = ReceiptFormat(applicationContext)
+            receiptFormat.addSingleLine("This is a default line")
+            receiptFormat.addSingleLine("This is a bold line", isBold = true)
+            receiptFormat.addSingleLine("This is a large text", isBold = true, fontSize = FontSize.LARGE)
+            receiptFormat.addSingleLine("This is the first printing line also testing multiline so this text has to be very very long", TextAlignment.ALIGN_LEFT)
+            receiptFormat.addSpaceDivider()
+            receiptFormat.addSingleLine("Just to confirm!", TextAlignment.ALIGN_RIGHT)
+            receiptFormat.addLineDivider()
+            receiptFormat.addKeyValuePair(key = "Header", value = "this value", isMultiLine = false, isBold = true, fontSize = FontSize.LARGE)
+            clientLib.printReceipt(receipt = receiptFormat.generateReceipt(), callingComponent = this)
         }
     }
 
@@ -94,11 +102,14 @@ class ActivitySample : AppCompatActivity() {
                 Log.e("Purchase response", "$cardResponseDetails")
             }
             if (requestCode == GaRequestKeys.CNP_PURCHASE_REQUEST_CODE) {
-                // CNP Response type hasn't been defined yet
+                // CNP Response types haven't been defined yet
             }
             if (requestCode == GaRequestKeys.MOBILE_MONEY_PURCHASE_REQUEST_CODE) {
                 val mobileMoneyTransactionResponse = clientLib.getMobileMoneyTransactionResponse(data)
                 Log.e("Purchase response", "$mobileMoneyTransactionResponse")
+            }
+            if (requestCode == GaRequestKeys.PRINTING_REQUEST_CODE) {
+                Log.e("Printing response", "Successful!")
             }
         }
     }

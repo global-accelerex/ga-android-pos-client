@@ -11,15 +11,10 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
-object PrintingUtils {
+internal object PrintingUtils {
 
-    const val ALIGN_LEFT = "left"
-    const val ALIGN_RIGHT = "right"
-    const val ALIGN_CENTER = "center"
-    const val LARGE_SIZE = "large"
-    const val SMALL_SIZE = "small"
-    private const val LOGO_DIR = "GA/rexretail/res"
-    private const val LOGO_FILE = "rexretail_receipt_logo.png"
+    private const val LOGO_DIR = "GA/res"
+    private const val LOGO_FILE = "printlogo.png"
 
     suspend fun getLogoPath(context: Context): String? = withContext(Dispatchers.IO) {
         if (ActivityCompat.checkSelfPermission(

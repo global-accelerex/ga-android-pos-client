@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.GAClientLib;
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.printing.TextAlignment;
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.printing.Receipt;
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.printing.ReceiptFormat;
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.Countries;
@@ -28,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ReceiptFormat format = new ReceiptFormat(MainActivity.this);
-                format.addSingleLine("This is a java test line");
-                format.addSingleLine("Just to confirm!!");
+                format.addSingleLine("This is a java test line", TextAlignment.ALIGN_LEFT);
+                format.addSingleLine("Just to confirm!!", TextAlignment.ALIGN_CENTER);
                 Receipt receipt = format.generateReceipt();
                 clientLib.printReceipt(receipt, MainActivity.this);
             }

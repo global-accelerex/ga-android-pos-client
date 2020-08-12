@@ -402,13 +402,17 @@ class GAClientLib private constructor(
     }
 
 
-    fun printReceipt(receiptFormat: Receipt, callingComponent: Activity) {
+    fun printReceipt(receipt: Receipt, callingComponent: Activity) {
+        val intent = Intent(PRINTER_INTENT_ADDRESS)
+        intent.putExtra("jsonData", Gson().toJson(receipt, Receipt::class.java))
+        callingComponent.startActivityForResult(intent, PRINTING_REQUEST_CODE)
+    }
+
+    fun printReceipt(receiptFormat: Receipt, callingComponent: Fragment) {
         val intent = Intent(PRINTER_INTENT_ADDRESS)
         intent.putExtra("jsonData", Gson().toJson(receiptFormat, Receipt::class.java))
         callingComponent.startActivityForResult(intent, PRINTING_REQUEST_CODE)
     }
-
-
 
     /**
      * This function should be used in the [onActivityResult] of the calling fragment or activity.
