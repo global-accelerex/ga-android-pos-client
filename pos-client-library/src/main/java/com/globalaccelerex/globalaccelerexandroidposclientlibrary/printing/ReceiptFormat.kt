@@ -10,7 +10,7 @@ class ReceiptFormat(private val context: Context) {
     var printField = arrayListOf<PrintField>()
     var stringField = arrayListOf<StringField>()
 
-    fun addSingleLine(text: String, alignment: Alignment) {
+    fun addSingleLine(text: String) {
         stringField.add(
             StringField(
                 header = TextField(text = text, align = ALIGN_CENTER),
