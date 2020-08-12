@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.GAClientLib
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.PosInformation
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.printing.ReceiptFormat
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.*
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -65,6 +66,13 @@ class ActivitySample : AppCompatActivity() {
                 mobileOperator = MobileMoneyOperators.MTN,
                 callingComponent = this
             )
+        }
+
+        print_receipt.setOnClickListener {
+            val receiptFormat = ReceiptFormat(this)
+            receiptFormat.addSingleLine("This is the first printing line")
+            receiptFormat.addSingleLine("Just to confirm!")
+            clientLib.printReceipt(receiptFormat = receiptFormat.generateReceipt(), callingComponent = this)
         }
     }
 

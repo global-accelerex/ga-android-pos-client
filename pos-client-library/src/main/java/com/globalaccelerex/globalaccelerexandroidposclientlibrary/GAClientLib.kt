@@ -6,13 +6,16 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.*
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.FAILURE
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.PRINTER_INTENT_ADDRESS
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.SUCCESS
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.KeyExchangeRequest
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.ParameterRequest
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.TerminalInformation
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.TransactionRequest
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.exceptions.UnsupportedFeatureException
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.printing.Receipt
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.*
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.PRINTING_REQUEST_CODE
 import com.google.gson.Gson
 
 /**
@@ -397,6 +400,14 @@ class GAClientLib private constructor(
             }
         }
     }
+
+
+    fun printReceipt(receiptFormat: Receipt, callingComponent: Activity) {
+        val intent = Intent(PRINTER_INTENT_ADDRESS)
+        intent.putExtra("jsonData", Gson().toJson(receiptFormat, Receipt::class.java))
+        callingComponent.startActivityForResult(intent, PRINTING_REQUEST_CODE)
+    }
+
 
 
     /**

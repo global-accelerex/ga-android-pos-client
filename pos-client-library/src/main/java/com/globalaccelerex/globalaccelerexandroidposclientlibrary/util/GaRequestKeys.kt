@@ -13,4 +13,5 @@ object GaRequestKeys {
     const val CNP_PRE_AUTH_COMPLETION_REQUEST_CODE = 1010
     const val CNP_CARD_BALANCE_REQUEST_CODE = 1011
     const val CNP_REFUND_REQUEST_CODE = 1012
+    const val PRINTING_REQUEST_CODE = 1013
 }
