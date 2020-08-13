@@ -29,9 +29,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ReceiptFormat format = new ReceiptFormat(MainActivity.this);
-                format.addSingleLine("This is a java test line", TextAlignment.ALIGN_LEFT);
-                format.addSingleLine("Just to confirm!!", TextAlignment.ALIGN_CENTER);
-                Receipt receipt = format.generateReceipt();
+                format.addSingleLine("This is a java test line", TextAlignment.ALIGN_LEFT, null , false);
+                format.addSingleLine("Just to confirm!!", TextAlignment.ALIGN_CENTER, null, false);
+                Receipt receipt = format.generatePaymentReceipt();
                 clientLib.printReceipt(receipt, MainActivity.this);
             }
         });

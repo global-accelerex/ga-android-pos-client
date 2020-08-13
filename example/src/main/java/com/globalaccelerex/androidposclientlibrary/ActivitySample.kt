@@ -80,7 +80,7 @@ class ActivitySample : AppCompatActivity() {
             receiptFormat.addSingleLine("Just to confirm!", TextAlignment.ALIGN_RIGHT)
             receiptFormat.addLineDivider()
             receiptFormat.addKeyValuePair(key = "Header", value = "this value", isMultiLine = false, isBold = true, fontSize = FontSize.LARGE)
-            clientLib.printReceipt(receipt = receiptFormat.generateReceipt(), callingComponent = this)
+            clientLib.printReceipt(receipt = receiptFormat.generatePaymentReceipt(), callingComponent = this)
         }
     }
 

@@ -6,8 +6,18 @@ import kotlinx.coroutines.*
 
 class ReceiptFormat(private val context: Context) {
 
-    private val printField = arrayListOf<PrintField>()
+    private val printFields = arrayListOf<PrintField>()
     private val stringField = arrayListOf<StringField>()
+
+    private val merchantFooter = "***** MERCHANT COPY *****"
+
+    private val customerFooter = "***** CUSTOMER COPY *****"
+
+
+
+    init {
+
+    }
 
     fun addLineDivider(){
         addSingleLine(text =  "-".repeat(32), textAlignment = TextAlignment.ALIGN_CENTER)
@@ -37,12 +47,13 @@ class ReceiptFormat(private val context: Context) {
     }
 
     fun generateReceipt(): Receipt {
+
         var path: String? = ""
         CoroutineScope(Dispatchers.IO).launch {
             path = getLogoPath(context)
         }
 
-        printField.add(
+        printFields.add(
             PrintField(
                 path!!,
                 stringFields = stringField
@@ -50,7 +61,38 @@ class ReceiptFormat(private val context: Context) {
         )
 
         return Receipt(
-            printField
+            printFields
+        )
+    }
+
+    fun generatePaymentReceipt(): Receipt {
+
+        var path: String? = ""
+        CoroutineScope(Dispatchers.IO).launch {
+            path = getLogoPath(context)
+        }
+
+        val customerStringFields = arrayListOf<StringField>()
+        customerStringFields.addAll(stringField)
+        customerStringFields.add(StringField(header = TextField(customerFooter, align = TextAlignment.ALIGN_CENTER.getValue()), isMultiline = false))
+        val merchantStringFields = arrayListOf<StringField>()
+        merchantStringFields.addAll(stringField)
+        merchantStringFields.add(StringField(header = TextField(merchantFooter, align = TextAlignment.ALIGN_CENTER.getValue()), isMultiline = false))
+        printFields.clear()
+        printFields.add(
+            PrintField(
+                path!!,
+                stringFields = customerStringFields
+            )
+        )
+        printFields.add(
+            PrintField(
+                path!!,
+                stringFields = merchantStringFields
+            )
+        )
+        return Receipt(
+            printFields
         )
     }
 }
