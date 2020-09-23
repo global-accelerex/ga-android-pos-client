@@ -15,3 +15,13 @@ object GaRequestKeys {
     const val CNP_REFUND_REQUEST_CODE = 1012
     const val PRINTING_REQUEST_CODE = 1013
 }
+
+object TransactionStatusCodes {
+    const val SUCCESS = "00"
+    const val FAILED = "02"
+    const val CANCEL = "03"
+    const val INVALID_FORMAT = "04"
+    const val WRONG_PARAMETER = "05"
+    const val TIMEOUT = "06"
+    const val ACTIVITY_CANCELLED = "09"
+}
