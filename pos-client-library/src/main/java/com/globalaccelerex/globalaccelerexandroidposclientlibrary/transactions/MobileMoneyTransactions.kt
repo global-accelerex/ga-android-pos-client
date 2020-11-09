@@ -13,7 +13,7 @@ class MobileMoneyTransactions(countryCode: Countries) {
     private val transactionRequest = TransactionRequest()
 
     init {
-        require(countryCode == Countries.GHANA) {
+        require(countryCode == Countries.KENYA) {
             throw UnsupportedFeatureException("This feature is not available in your specified country.")
         }
     }

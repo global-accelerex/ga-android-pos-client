@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             )
         }
         mobile_money_request.setOnClickListener {
-            clientLib.makeMobileMoneyTransactionRequest(
+            clientLib.mobileMoneyTransaction.purchase(
                 phoneNumber = "08143051805",
                 amount = 1.0,
                 mobileOperator = MobileMoneyOperators.MTN,
@@ -43,12 +43,11 @@ class MainActivity : AppCompatActivity() {
             )
         }
         cnp_purchase.setOnClickListener {
-            clientLib.makeCardNotPresentTransactionRequest(
+            clientLib.cardNotPresentTransactions.purchase(
                 cardNumber = "5196010125746208",
                 cardExpiryDate = "2302",
                 callingComponent = this,
                 amount = 1.0,
-                transactionType = TransactionType.CNP_PURCHASE,
                 customPrint = false
             )
         }
