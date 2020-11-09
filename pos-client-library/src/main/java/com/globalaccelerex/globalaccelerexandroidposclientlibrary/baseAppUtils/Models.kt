@@ -33,7 +33,7 @@ data class PosInformation(
  * @param transactionData: This contains the card details and more information about the transaction that has been made
  * */
 data class CardTransactionResponse(
-    val status: String,
+    val status: String?,
     val transactionData: CardTransaction?
 )
 
@@ -57,8 +57,8 @@ data class CardTransaction(
 )
 
 data class MobileMoneyTransactionResponse(
-    val status: String,
-    val transactionData: MobileMoneyTransaction
+    val status: String?,
+    val transactionData: MobileMoneyTransaction?
 )
 
 data class MobileMoneyTransaction(
