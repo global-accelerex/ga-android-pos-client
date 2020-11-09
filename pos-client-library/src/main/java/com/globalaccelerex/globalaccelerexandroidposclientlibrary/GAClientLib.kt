@@ -12,23 +12,27 @@ import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.P
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.TerminalInformation
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.TransactionRequest
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.exceptions.UnsupportedFeatureException
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.transactions.CardNotPresentTransactions
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.transactions.CardTransactions
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.transactions.MobileMoneyTransactions
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.*
 import com.google.gson.Gson
 
 /**
  * Entry point.
  * Instance of this object gives you the ability to make requests to the POS application.
+ * A single instance of this class is to be used in the application scope to make POS transactions.
  * */
-
 class GAClientLib private constructor(
     private val countryCode: Countries
 ) {
 
+    //variable to keep track of when key exchange has been made in the app.
     private var hasPerformedKeyExchange: Boolean = false
     private val TAG = "GAClientLib"
+
     private val parametersRequest = ParameterRequest()
     private val keyExchangeRequest = KeyExchangeRequest()
-    private val transactionRequest = TransactionRequest()
 
     init {
         /**
@@ -47,6 +51,9 @@ class GAClientLib private constructor(
         fun build() = GAClientLib(countryCode!!)
     }
 
+    val cardTransactions by lazy { CardTransactions() }
+    val cardNotPresentTransactions by lazy { CardNotPresentTransactions(countryCode) }
+    val mobileMoneyTransaction by lazy { MobileMoneyTransactions(countryCode) }
 
     /**
      * This function is used to get the parameter details of the POS device being used.
@@ -88,316 +95,6 @@ class GAClientLib private constructor(
             callingComponent = callingComponent
         )
     }
-
-    /**
-     *
-     * @throws IllegalArgumentException
-     *
-     *  This function is used to make card transactions on the POS device.
-     *  [callingComponent] should be either [Fragment] or [Activity]
-     *
-     *  [cashBackAmount] should be present if [transactionType] is set to [TransactionType.CP_PURCHASE_WITH_CB]
-     *
-     *  @param amount: Amount for the transaction to be made. Amount should always be in [Double] format
-     *  @param transactionType: This specifies the type of payment transaction to be carried out. See [TransactionType] for different payment options
-     *  @param cashBackAmount: This parameter should only be used when [transactionType] is [TransactionType.CP_PURCHASE_WITH_CB]
-     *  @param callingComponent: This represents the class from which the function is called. Calling component must be of [Fragment] or [Activity]. Overloaded function handles activity cases.
-     *  @param customPrint: Set this to true if you want to design your own receipt format. If set to false, the default printing format will be used.
-     *
-     * */
-    fun makeCardPresentTransactionRequest(
-        amount: Double,
-        transactionType: TransactionType,
-        callingComponent: Fragment,
-        cashBackAmount: Double? = null,
-        customPrint: Boolean
-    ) {
-        require(transactionType == TransactionType.CP_PURCHASE || transactionType == TransactionType.CP_PURCHASE_WITH_CB) {
-            throw IllegalArgumentException(
-                "transactactionType should start with CP indicating CARD PRESENT."
-            )
-        }
-
-        when (transactionType) {
-            TransactionType.CP_PURCHASE -> {
-                transactionRequest.performCPTransactionRequest(
-                    callingComponent = callingComponent,
-                    amount = amount,
-                    customPrint = customPrint
-                )
-            }
-            TransactionType.CP_PURCHASE_WITH_CB -> {
-                requireNotNull(cashBackAmount) { throw IllegalArgumentException("Cashback parameter cannot be null for Cashback Purchase transactions") }
-                transactionRequest.performCPCashBackTransactionRequest(
-                    callingComponent = callingComponent,
-                    amount = amount,
-                    cashbackAmount = cashBackAmount,
-                    customPrint = customPrint
-                )
-            }
-        }
-    }
-
-    /**
-     *
-     * @throws IllegalArgumentException
-     *
-     *  This function is used to make card transactions on the POS device.
-     *  [callingComponent] should be either [Fragment] or [Activity]
-     *
-     *  [cashBackAmount] should be present if [transactionType] is set to [TransactionType.CP_PURCHASE_WITH_CB]
-     *
-     *  @param amount: Amount for the transaction to be made. Amount should always be in [Double] format
-     *  @param transactionType: This specifies the type of payment transaction to be carried out. See [TransactionType] for different payment options
-     *  @param cashBackAmount: This parameter should only be used when [transactionType] is [TransactionType.CP_PURCHASE_WITH_CB]
-     *  @param callingComponent: This represents the class from which the function is called. Calling component must be of [Activity]. Overloaded function handles fragment cases.
-     *  @param customPrint: Set this to true if you want to design your own receipt format. If set to false, the default printing format will be used.
-     *
-     * */
-    fun makeCardPresentTransactionRequest(
-        amount: Double,
-        transactionType: TransactionType,
-        callingComponent: Activity,
-        cashBackAmount: Double? = null,
-        customPrint: Boolean
-    ) {
-        require(transactionType == TransactionType.CP_PURCHASE || transactionType == TransactionType.CP_PURCHASE_WITH_CB) {
-            throw IllegalArgumentException(
-                "transactactionType should start with CP indicating CARD PRESENT."
-            )
-        }
-        when (transactionType) {
-            TransactionType.CP_PURCHASE -> {
-                transactionRequest.performCPTransactionRequest(
-                    callingComponent = callingComponent,
-                    amount = amount,
-                    customPrint = customPrint
-                )
-                transactionRequest.performCPTransactionRequest(
-                    callingComponent = callingComponent,
-                    amount = amount,
-                    customPrint = customPrint
-                )
-            }
-
-            TransactionType.CP_PURCHASE_WITH_CB -> {
-                requireNotNull(cashBackAmount) { throw IllegalArgumentException("CashBack parameter cannot be null for CashBack Purchase transactions") }
-                transactionRequest.performCPCashBackTransactionRequest(
-                    callingComponent = callingComponent,
-                    amount = amount,
-                    cashbackAmount = cashBackAmount,
-                    customPrint = customPrint
-                )
-
-                transactionRequest.performCPCashBackTransactionRequest(
-                    callingComponent = callingComponent,
-                    amount = amount,
-                    cashbackAmount = cashBackAmount,
-                    customPrint = customPrint
-                )
-            }
-        }
-    }
-
-    /**
-     * This function helps to make mobile money transactions
-     * @throws UnsupportedFeatureException if this is called with a country configuration != [Countries.GHANA]
-     * @throws IllegalArgumentException if called from a class which is not of [Activity] of [Fragment] types.
-     * @param transType: This is the type of mobile money transaction to be made. This is of type [TransactionType]
-     * @param mobileOperator: This is the mobile operator for the mobile money operation. It should be of type [MobileMoneyOperators]
-     * @param amount: The amount to be paid
-     * @param callingComponent: This is the class from which the function is called. Should be [Activity] or [Fragment]
-     * * */
-    fun makeMobileMoneyTransactionRequest(
-        mobileOperator: MobileMoneyOperators,
-        amount: Double,
-        phoneNumber: String,
-        callingComponent: Fragment
-    ) {
-        require(countryCode == Countries.GHANA) { throw UnsupportedFeatureException("This feature is not available in your specified country.") }
-
-        transactionRequest.performMobileMoneyPurchaseRequest(
-            callingComponent = callingComponent,
-            mobileOperator = mobileOperator,
-            amount = amount,
-            phoneNumber = phoneNumber
-        )
-
-    }
-
-
-    fun makeMobileMoneyTransactionRequest(
-        mobileOperator: MobileMoneyOperators,
-        amount: Double,
-        phoneNumber: String,
-        callingComponent: Activity
-    ) {
-        require(countryCode == Countries.GHANA) { throw UnsupportedFeatureException("This feature is not available in your specified country.") }
-        transactionRequest.performMobileMoneyPurchaseRequest(
-            callingComponent = callingComponent,
-            mobileOperator = mobileOperator,
-            amount = amount,
-            phoneNumber = phoneNumber
-        )
-    }
-
-
-    /**
-     * This is used to perform mobile money status check or re-query transactions.
-     * @param rrn: This is the RRN (Retrival Reference Number) of the transaction to be queried.
-     * @param stan: This is the stan of the transaction to be queried. Usually in the initial mobile money transaction.
-     * @param timeStamp: This is the [dateTime] on the [MobileMoneyTransaction] response. The required date format for this query is "MMddHHmmss"
-     * @param callingComponent: This is the class from which the function is called. It should be either an [Activity] or a [Fragment]
-     * */
-    fun makeMobileMoneyStatusCheckRequest(
-        rrn: String,
-        stan: String,
-        timeStamp: String,
-        callingComponent: Activity
-    ) {
-        require(countryCode == Countries.GHANA) { throw UnsupportedFeatureException("This feature is not available in your specified country.") }
-        transactionRequest.performMobileMoneyStatusCheckerRequest(
-            rrn = rrn,
-            stan = stan,
-            timeStamp = timeStamp,
-            callingComponent = callingComponent
-        )
-    }
-
-    /**
-     * This is used to perform mobile money status check or re-query transactions.
-     * @param rrn: This is the RRN (Retrival Reference Number) of the transaction to be queried.
-     * @param stan: This is the stan of the transaction to be queried. Usually in the initial mobile money transaction.
-     * @param timeStamp: This is the [dateTime] on the [MobileMoneyTransaction] response. The required date format for this query is "MMddHHmmss"
-     * @param callingComponent: This is the class from which the function is called. It should be either an [Activity] or a [Fragment]
-     * */
-    fun makeMobileMoneyStatusCheckRequest(
-        rrn: String,
-        stan: String,
-        timeStamp: String,
-        callingComponent: Fragment
-    ) {
-        require(countryCode == Countries.GHANA) { throw UnsupportedFeatureException("This feature is not available in your specified country.") }
-        transactionRequest.performMobileMoneyStatusCheckerRequest(
-            rrn = rrn,
-            stan = stan,
-            timeStamp = timeStamp,
-            callingComponent = callingComponent
-        )
-    }
-
-    /**
-     * This method is used to make card not present purchases.
-     * This function should only be used with Kenyan configuration.
-     * @throws UnsupportedFeatureException if another country configuration is used.
-     * @param cardNumber This is the card pan of the card to be used for the CNP transaction
-     * @param cardExpiryDate The expiry date of the card to be used for the CNP transaction
-     * @param
-     * */
-
-    fun makeCardNotPresentTransactionRequest(
-        cardNumber: String,
-        cardExpiryDate: String,
-        transactionType: TransactionType,
-        amount: Double? = null,
-        cashBackAmount: Double? = null,
-        reference: String? = null,
-        customPrint: Boolean,
-        callingComponent: Activity
-    ) {
-        require(countryCode == Countries.KENYA) { throw UnsupportedFeatureException("This feature is not supported in specified country") }
-        require(transactionType == TransactionType.CNP_PURCHASE ||
-                transactionType == TransactionType.CNP_PURCHASE_WITH_CASH_BACK ||
-                transactionType == TransactionType.CNP_PRE_AUTH ||
-                transactionType == TransactionType.CNP_PRE_AUTH_COMPLETION) {
-            throw IllegalArgumentException(
-                "transactactionType should start with CNP indicating CARD NOT PRESENT."
-            )
-        }
-        when (transactionType) {
-            TransactionType.CNP_PURCHASE -> {
-                requireNotNull(amount) { throw IllegalArgumentException("Amount cannot be null to make this transaction type.")}
-                transactionRequest.performCNPTransactionRequest(
-                    callingComponent = callingComponent,
-                    amount = amount,
-                    customPrint = customPrint,
-                    cardNumber = cardNumber,
-                    expiryDate = cardExpiryDate
-                )
-            }
-
-            TransactionType.CNP_PURCHASE_WITH_CASH_BACK -> {
-                requireNotNull(amount) { throw IllegalArgumentException("Amount cannot be null to make this transaction type.")}
-                requireNotNull(cashBackAmount) { throw IllegalArgumentException("CashBack parameter cannot be null for CashBack Purchase transactions") }
-                transactionRequest.performCNPCashBackTransactionRequest(
-                    callingComponent = callingComponent,
-                    amount = amount,
-                    cashbackAmount = cashBackAmount,
-                    customPrint = customPrint,
-                    cardNumber = cardNumber,
-                    expiryDate = cardExpiryDate
-                )
-            }
-
-            TransactionType.CNP_PRE_AUTH -> {
-                requireNotNull(amount) { throw IllegalArgumentException("Amount cannot be null to make this transaction type.")}
-                transactionRequest.performCNPPreAuthTransactionRequest(
-                    cardNumber = cardNumber,
-                    expiryDate = cardExpiryDate,
-                    amount = amount,
-                    customPrint = customPrint,
-                    callingComponent = callingComponent
-                )
-            }
-
-            TransactionType.CNP_PRE_AUTH_COMPLETION -> {
-                requireNotNull(amount) { throw IllegalArgumentException("Amount cannot be null to make this transaction type.")}
-                requireNotNull(reference) {throw IllegalArgumentException("Reference number cannot be null for a Pre auth completion transaction.")}
-                transactionRequest.performCNPPreAuthCompletionTransactionRequest(
-                    cardNumber = cardNumber,
-                    expiryDate = cardExpiryDate,
-                    amount = amount,
-                    customPrint = customPrint,
-                    callingComponent = callingComponent,
-                    reference = reference
-                )
-            }
-
-            TransactionType.CNP_CARD_BALANCE -> {
-                transactionRequest.performCNPCardBalanceTransactionRequest(
-                    cardNumber = cardNumber,
-                    expiryDate = cardExpiryDate,
-                    callingComponent = callingComponent,
-                    customPrint = customPrint
-                )
-            }
-
-            TransactionType.CNP_REFUND -> {
-                requireNotNull(amount) { throw IllegalArgumentException("Amount cannot be null to make this transaction type.")}
-                transactionRequest.performCNPRefundTransactionRequest(
-                    cardNumber = cardNumber,
-                    expiryDate = cardExpiryDate,
-                    amount = amount,
-                    customPrint = customPrint,
-                    callingComponent = callingComponent
-                )
-            }
-
-            TransactionType.CNP_REVERSAL -> {
-                requireNotNull(amount) { throw IllegalArgumentException("Amount cannot be null to make this transaction type.")}
-                requireNotNull(reference) {throw IllegalArgumentException("Reference number cannot be null for a Pre auth completion transaction.")}
-                transactionRequest.performCNPReversalTransactionRequest(
-                    cardNumber = cardNumber,
-                    expiryDate = cardExpiryDate,
-                    amount = amount,
-                    reference = reference,
-                    callingComponent = callingComponent,
-                    customPrint = customPrint
-                )
-            }
-        }
-    }
-
 
     /**
      * This function should be used in the [onActivityResult] of the calling fragment or activity.

@@ -28,11 +28,10 @@ class MainActivity : AppCompatActivity() {
             clientLib.makeKeyExchangeRequest(this)
         }
         transaction_request.setOnClickListener {
-            clientLib.makeCardPresentTransactionRequest(
+            clientLib.cardTransactions.purchase(
                 amount = 1.0,
-                customPrint = true,
-                transactionType = TransactionType.CP_PURCHASE,
-                callingComponent = this
+                callingComponent = this,
+                customPrint = false
             )
         }
         mobile_money_request.setOnClickListener {
