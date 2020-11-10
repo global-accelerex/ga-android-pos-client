@@ -3,12 +3,14 @@ package com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils
 import android.app.Activity
 import android.content.Intent
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceFragmentCompat
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.PARAMETERS_REQUEST_FORMAT
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.PARAMETERS_REQUEST_INTENT_ADDRESS
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.REQUEST_DATA_TAG
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.TerminalInformation.GHANA_TERMINAL_MODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.TerminalInformation.NIGERIA_TERMINAL_MODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.TerminalInformation.TERMINAL_MODE
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.exceptions.UnsupportedCallingComponentException
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.PARAMETERS_REQUEST_CODE
 
 
@@ -24,11 +26,17 @@ internal class ParameterRequest {
         intent.putExtra(REQUEST_DATA_TAG, jsonString)
         when (TERMINAL_MODE) {
             NIGERIA_TERMINAL_MODE, GHANA_TERMINAL_MODE -> {
-                if (callingComponent is Activity) {
-                    callingComponent.startActivityForResult(intent, PARAMETERS_REQUEST_CODE)
-                }
-                if (callingComponent is Fragment) {
-                    callingComponent.startActivityForResult(intent, PARAMETERS_REQUEST_CODE)
+                when (callingComponent) {
+                    is Activity -> {
+                        callingComponent.startActivityForResult(intent, PARAMETERS_REQUEST_CODE)
+                    }
+                    is Fragment -> {
+                        callingComponent.startActivityForResult(intent, PARAMETERS_REQUEST_CODE)
+                    }
+                    is PreferenceFragmentCompat -> {
+                        callingComponent.startActivityForResult(intent, PARAMETERS_REQUEST_CODE)
+                    }
+                    else -> throw UnsupportedCallingComponentException("Unsupported calling component.")
                 }
             }
         }

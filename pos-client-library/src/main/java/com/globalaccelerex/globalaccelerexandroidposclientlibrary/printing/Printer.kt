@@ -3,6 +3,7 @@ package com.globalaccelerex.globalaccelerexandroidposclientlibrary.printing
 import android.app.Activity
 import android.content.Intent
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceFragmentCompat
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.PRINTER_INTENT_ADDRESS
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.exceptions.UnsupportedCallingComponentException
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.PRINTING_REQUEST_CODE
@@ -20,9 +21,11 @@ class Printer {
             is Fragment -> {
                 callingComponent.startActivityForResult(intent, PRINTING_REQUEST_CODE)
             }
+            is PreferenceFragmentCompat -> {
+                callingComponent.startActivityForResult(intent, PRINTING_REQUEST_CODE)
+            }
             else -> throw UnsupportedCallingComponentException("Make sure you are calling from a supported android component.")
         }
-
     }
 
 }
