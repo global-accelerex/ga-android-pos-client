@@ -5,13 +5,11 @@ import android.content.Intent
 import android.util.Log
 import androidx.fragment.app.Fragment
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.*
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.FAILURE
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.FAILED
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.SUCCESS
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.KeyExchangeRequest
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.ParameterRequest
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.TerminalInformation
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.TransactionRequest
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.exceptions.UnsupportedFeatureException
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.transactions.CardNotPresentTransactions
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.transactions.CardTransactions
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.transactions.MobileMoneyTransactions
@@ -118,16 +116,12 @@ class GAClientLib private constructor(
         return try {
             val status = data?.getStringExtra("status")
             val jsonData = data?.getStringExtra("data")
-            when (status) {
-                SUCCESS, FAILURE -> {
-                    val cardTransaction = Gson().fromJson(jsonData, CardTransaction::class.java)
-                    CardTransactionResponse(
-                        status = status,
-                        transactionData = cardTransaction
-                    )
-                }
-                else -> null
-            }
+            Log.e("card response", jsonData)
+            val cardTransaction = Gson().fromJson(jsonData, CardTransaction::class.java)
+            CardTransactionResponse(
+                status = status,
+                transactionData = cardTransaction
+            )
         } catch (e: Exception) {
             Log.e(TAG, e.message ?: "A transaction error occured.")
             null
@@ -144,7 +138,7 @@ class GAClientLib private constructor(
             val status = data?.getStringExtra("status")
             val jsonData = data?.getStringExtra("data")
             when (status) {
-                SUCCESS, FAILURE -> {
+                SUCCESS, FAILED -> {
                     val mmTransaction =
                         Gson().fromJson(jsonData, MobileMoneyTransaction::class.java)
                     MobileMoneyTransactionResponse(

@@ -29,31 +29,41 @@ data class PosInformation(
 /**
  * This is a response class to card transactions made.
  *
- * @param status: This indicates the status of the transaction made. Refer to docs to find out the different codes and their meaning
+ * @param status: This indicates the status of the transaction made from the POS. Refer to docs to find out the different codes and their meaning
  * @param transactionData: This contains the card details and more information about the transaction that has been made
  * */
 data class CardTransactionResponse(
-    val status: String,
+    val status: String?,
     val transactionData: CardTransaction?
 )
 
 data class CardTransaction(
-    @SerializedName("statuscode") val statuscode: String?,
-    @SerializedName("message") val message: String?,
-    @SerializedName("terminalID") val terminalID: String?,
-    @SerializedName("rrn") val rrn: String?,
-    @SerializedName("stan") val stan: String?,
-    @SerializedName("amount") val amount: String?,
-    @SerializedName("datetime") var datetime: String?,
-    @SerializedName("authcode") val authcode: String? = "",
-    @SerializedName("cardHolderName") val cardHolderName: String?,
-    @SerializedName("maskedPan") val maskedPan: String?,
-    @SerializedName("appLabel") val cardScheme: String?,
-    @SerializedName("cardExpireDate") val cardExpireDate: String?,
-    @SerializedName("aid") val aid: String?,
-    @SerializedName("nuban") val nuban: String? = "",
-    @SerializedName("pinType") val pinType: String? = "",
-    @SerializedName("statusDescription") val statusDescription: String? = ""
+    val aid: String?,
+    val amount: String?,
+    val appLabel: String?,
+    val authcode: String?,
+    val bankLogo: String?,
+    val bankName: String?,
+    val baseAppVersion: String?,
+    val cardExpireDate: String?,
+    val cardHolderName: String?,
+    val cashBackAmount: String?,
+    val datetime: String?,
+    val footerMessage: String?,
+    val maskedPan: String?,
+    val merchantAddress: String?,
+    val merchantCategoryCode: String?,
+    val merchantId: String?,
+    val merchantName: String?,
+    val message: String?,
+    val nuban: String?,
+    val pinType: String?,
+    val ptsp: String?,
+    val rrn: String?,
+    val stan: String?,
+    val statuscode: String?,
+    val terminalID: String?,
+    val transactionType: String?
 )
 
 data class MobileMoneyTransactionResponse(

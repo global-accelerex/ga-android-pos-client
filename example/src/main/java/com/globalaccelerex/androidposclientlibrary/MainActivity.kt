@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private val clientLib = GAClientLib.Builder()
-        .setCountryCode(Countries.KENYA)
+        .setCountryCode(Countries.NIGERIA)
         .build()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,9 +29,9 @@ class MainActivity : AppCompatActivity() {
         }
         transaction_request.setOnClickListener {
             clientLib.cardTransactions.purchase(
-                amount = 1.0,
+                amount = 0.01,
                 callingComponent = this,
-                customPrint = false
+                customPrint = true
             )
         }
         mobile_money_request.setOnClickListener {
