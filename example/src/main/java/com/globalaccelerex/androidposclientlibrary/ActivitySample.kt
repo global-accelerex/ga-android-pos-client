@@ -6,27 +6,40 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.GAClientLib
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.PosInformation
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.printing.FontSize
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.printing.TextAlignment
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.printing.ReceiptFormat
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.PosParameters
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.*
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+/**
+ * This activity shows an example of how each library function is used.
+ * Same principles apply when calling from a fragment
+ * */
+
+class ActivitySample : AppCompatActivity() {
 
     private val clientLib = GAClientLib.Builder()
-        .setCountryCode(Countries.GHANA)
+        .setCountryCode(Countries.KENYA)
         .build()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //Make Key Exchange
+        key_exchange.setOnClickListener {
+            clientLib.makeKeyExchangeRequest(this)
+        }
+
+        //Make parameter request
         paramter_request.setOnClickListener {
             clientLib.makeParametersRequest(this)
         }
 
-        key_exchange.setOnClickListener {
-            clientLib.makeKeyExchangeRequest(this)
-        }
+        //Make Card Present Transactions (CP)
         transaction_request.setOnClickListener {
             clientLib.cardTransactions.purchase(
                 amount = 0.01,
@@ -55,6 +68,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        //Note that the Request key will always match the transaction type with "REQUEST_CODE" appended to it.
 
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == GaResponseKeys.PARAMETERS_REQUEST_CODE) {
