@@ -5,19 +5,13 @@ import android.content.Intent
 import android.util.Log
 import androidx.fragment.app.Fragment
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.*
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.PRINTER_INTENT_ADDRESS
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.KeyExchangeRequest
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.ParameterRequest
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.TerminalInformation
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.printing.Printer
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.transactions.CardNotPresentTransactions
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.transactions.CardTransactions
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.transactions.MobileMoneyTransactions
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.TransactionRequest
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.exceptions.UnsupportedFeatureException
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.printing.Receipt
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.*
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.PRINTING_REQUEST_CODE
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.TransactionStatusCodes.SUCCESS
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.Countries
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.ParsingUtil
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.RequestStatus
 import com.google.gson.Gson
 
 /**
@@ -56,6 +50,7 @@ class GAClientLib private constructor(
     val cardTransactions by lazy { CardTransactions() }
     val cardNotPresentTransactions by lazy { CardNotPresentTransactions(countryCode) }
     val mobileMoneyTransaction by lazy { MobileMoneyTransactions(countryCode) }
+    val printer by lazy { Printer() }
 
     /**
      * This function is used to get the parameter details of the POS device being used.

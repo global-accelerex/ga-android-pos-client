@@ -1,4 +1,4 @@
-include ':javasampe'
+include ':javasample'
 include ':pos-client-library'
 include ':example'
 rootProject.name = "AndroidPosClientLibrary"

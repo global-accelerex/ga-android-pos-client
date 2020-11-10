@@ -6,11 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.GAClientLib
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.PosInformation
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.printing.FontSize
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.printing.TextAlignment
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.printing.ReceiptFormat
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.PosParameters
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.printing.FontSize
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.printing.ReceiptFormat
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.printing.TextAlignment
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.*
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -64,6 +63,19 @@ class ActivitySample : AppCompatActivity() {
                 customPrint = false
             )
         }
+
+        print_receipt.setOnClickListener {
+            val receiptFormat = ReceiptFormat(applicationContext)
+            receiptFormat.addSingleLine("This is a default line")
+            receiptFormat.addSingleLine("This is a bold line", isBold = true)
+            receiptFormat.addSingleLine("This is a large text", isBold = true, fontSize = FontSize.LARGE)
+            receiptFormat.addSingleLine("This is the first printing line also testing multiline so this text has to be very very long", TextAlignment.ALIGN_LEFT)
+            receiptFormat.addSpaceDivider()
+            receiptFormat.addSingleLine("Just to confirm!", TextAlignment.ALIGN_RIGHT)
+            receiptFormat.addLineDivider()
+            receiptFormat.addKeyValuePair(key = "Header", value = "this value", isMultiLine = false, isBold = true, fontSize = FontSize.LARGE)
+            clientLib.printer.printReceipt(receipt = receiptFormat.generatePaymentReceipt(), callingComponent = this)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -72,22 +84,22 @@ class ActivitySample : AppCompatActivity() {
         //Note that the Request key will always match the transaction type with "REQUEST_CODE" appended to it.
 
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == GaResponseKeys.PARAMETERS_REQUEST_CODE) {
+            if (requestCode == GaRequestKeys.PARAMETERS_REQUEST_CODE) {
                 val posInfo: PosParameters? = clientLib.getPosParametersResponse(data)
                 Log.e("PosInfo", "$posInfo")
             }
-            if (requestCode == GaResponseKeys.CNP_PURCHASE_REQUEST_CODE) {
+            if (requestCode == GaRequestKeys.CNP_PURCHASE_REQUEST_CODE) {
                 val posInfo: PosParameters? = clientLib.getPosParametersResponse(data)
                 Log.e("PosInfo", "$posInfo")
             }
-            if (requestCode == GaResponseKeys.KEY_EXCHANGE_REQUEST_CODE) {
+            if (requestCode == GaRequestKeys.KEY_EXCHANGE_REQUEST_CODE) {
                 Log.e("Key exchange", "Key exchange successful!")
             }
-            if (requestCode == GaResponseKeys.CARD_PURCHASE_REQUEST_CODE) {
+            if (requestCode == GaRequestKeys.CP_PURCHASE_REQUEST_CODE) {
                 val cardResponseDetails = clientLib.getCardTransactionResponse(data)
                 Log.e("Purchase response", "$cardResponseDetails")
             }
-            if (requestCode == GaResponseKeys.MOBILE_MONEY_PURCHASE_REQUEST_CODE) {
+            if (requestCode == GaRequestKeys.MOBILE_MONEY_PURCHASE_REQUEST_CODE) {
                 val cardResponseDetails = clientLib.getMobileMoneyTransactionResponse(data)
                 Log.e("Purchase response", "$cardResponseDetails")
             }
