@@ -1,6 +1,7 @@
 package com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils
 
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.MOBILE_MONEY_STATUS_CHECK
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.RequestStatus
 import com.google.gson.annotations.SerializedName
 
 data class PosInformation(
@@ -29,11 +30,11 @@ data class PosInformation(
 /**
  * This is a response class to card transactions made.
  *
- * @param status: This indicates the status of the transaction made from the POS. Refer to docs to find out the different codes and their meaning
+ * @param requestStatus: This indicates the status of the transaction made from the POS. Refer to docs to find out the different codes and their meaning
  * @param transactionData: This contains the card details and more information about the transaction that has been made
  * */
 data class CardTransactionResponse(
-    val status: String?,
+    val requestStatus: RequestStatus?,
     val transactionData: CardTransaction?
 )
 
@@ -67,7 +68,7 @@ data class CardTransaction(
 )
 
 data class MobileMoneyTransactionResponse(
-    val status: String,
+    val status: RequestStatus,
     val transactionData: MobileMoneyTransaction
 )
 

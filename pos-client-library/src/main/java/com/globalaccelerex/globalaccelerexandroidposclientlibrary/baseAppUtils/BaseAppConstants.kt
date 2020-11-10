@@ -23,8 +23,4 @@ internal object BaseAppConstants {
     const val MOBILE_MONEY_TRANSACTION = "TRANSACTION"
     const val MOBILE_MONEY_STATUS_CHECK = "RE_QUERY"
 
-    const val SUCCESS = "00"
-    const val FAILED = "02"
-    const val CANCELLED = "03"
-    const val TIMEOUT = "06"
 }

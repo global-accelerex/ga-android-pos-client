@@ -5,8 +5,6 @@ import android.content.Intent
 import android.util.Log
 import androidx.fragment.app.Fragment
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.*
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.FAILED
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.SUCCESS
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.KeyExchangeRequest
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.ParameterRequest
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.TerminalInformation
@@ -101,8 +99,10 @@ class GAClientLib private constructor(
      * If any error occurs, null is returned.
      * */
     fun getPosParametersResponse(data: Intent?): PosInformation? {
-        return if (data?.getStringExtra("status") == SUCCESS) {
-            val jsonString = data.getStringExtra("data")!!
+
+        val status = data?.getStringExtra("status")
+        return if (ParsingUtil.getStatus(status) == RequestStatus.SUCCESS) {
+            val jsonString = data?.getStringExtra("data")!!
             Gson().fromJson(jsonString, PosInformation::class.java)
         } else null
     }
@@ -116,10 +116,9 @@ class GAClientLib private constructor(
         return try {
             val status = data?.getStringExtra("status")
             val jsonData = data?.getStringExtra("data")
-            Log.e("card response", jsonData)
             val cardTransaction = Gson().fromJson(jsonData, CardTransaction::class.java)
             CardTransactionResponse(
-                status = status,
+                requestStatus = ParsingUtil.getStatus(status),
                 transactionData = cardTransaction
             )
         } catch (e: Exception) {
@@ -137,17 +136,13 @@ class GAClientLib private constructor(
         return try {
             val status = data?.getStringExtra("status")
             val jsonData = data?.getStringExtra("data")
-            when (status) {
-                SUCCESS, FAILED -> {
-                    val mmTransaction =
-                        Gson().fromJson(jsonData, MobileMoneyTransaction::class.java)
-                    MobileMoneyTransactionResponse(
-                        status = status,
-                        transactionData = mmTransaction
-                    )
-                }
-                else -> null
-            }
+
+            val mmTransaction =
+                Gson().fromJson(jsonData, MobileMoneyTransaction::class.java)
+            MobileMoneyTransactionResponse(
+                status = ParsingUtil.getStatus(status),
+                transactionData = mmTransaction
+            )
         } catch (e: Exception) {
             Log.e(TAG, e.message ?: "A transaction error occured.")
             null

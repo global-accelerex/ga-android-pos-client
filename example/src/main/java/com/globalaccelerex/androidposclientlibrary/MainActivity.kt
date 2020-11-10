@@ -70,6 +70,10 @@ class MainActivity : AppCompatActivity() {
             }
             if (requestCode == GaResponseKeys.CARD_PURCHASE_REQUEST_CODE) {
                 val cardResponseDetails = clientLib.getCardTransactionResponse(data)
+                when (cardResponseDetails?.requestStatus) {
+
+
+                }
                 Log.e("Purchase response", "$cardResponseDetails")
             }
             if (requestCode == GaResponseKeys.MOBILE_MONEY_PURCHASE_REQUEST_CODE) {
