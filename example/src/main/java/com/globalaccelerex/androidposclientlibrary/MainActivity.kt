@@ -6,14 +6,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.GAClientLib
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.PosInformation
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.PosParameters
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     private val clientLib = GAClientLib.Builder()
-        .setCountryCode(Countries.NIGERIA)
+        .setCountryCode(Countries.GHANA)
         .build()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,11 +58,11 @@ class MainActivity : AppCompatActivity() {
 
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == GaResponseKeys.PARAMETERS_REQUEST_CODE) {
-                val posInfo: PosInformation? = clientLib.getPosParametersResponse(data)
+                val posInfo: PosParameters? = clientLib.getPosParametersResponse(data)
                 Log.e("PosInfo", "$posInfo")
             }
             if (requestCode == GaResponseKeys.CNP_PURCHASE_REQUEST_CODE) {
-                val posInfo: PosInformation? = clientLib.getPosParametersResponse(data)
+                val posInfo: PosParameters? = clientLib.getPosParametersResponse(data)
                 Log.e("PosInfo", "$posInfo")
             }
             if (requestCode == GaResponseKeys.KEY_EXCHANGE_REQUEST_CODE) {
@@ -70,14 +70,10 @@ class MainActivity : AppCompatActivity() {
             }
             if (requestCode == GaResponseKeys.CARD_PURCHASE_REQUEST_CODE) {
                 val cardResponseDetails = clientLib.getCardTransactionResponse(data)
-                when (cardResponseDetails?.requestStatus) {
-
-
-                }
                 Log.e("Purchase response", "$cardResponseDetails")
             }
             if (requestCode == GaResponseKeys.MOBILE_MONEY_PURCHASE_REQUEST_CODE) {
-                val cardResponseDetails = clientLib.getCardTransactionResponse(data)
+                val cardResponseDetails = clientLib.getMobileMoneyTransactionResponse(data)
                 Log.e("Purchase response", "$cardResponseDetails")
             }
         }

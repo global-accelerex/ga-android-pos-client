@@ -2,29 +2,22 @@ package com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils
 
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.MOBILE_MONEY_STATUS_CHECK
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.RequestStatus
-import com.google.gson.annotations.SerializedName
 
-data class PosInformation(
-    @SerializedName("BankName")
-    val bankName: String?,
-    @SerializedName("Location")
-    val location: String?,
-    @SerializedName("FooterMessage")
-    val footerMessage: String?,
-    @SerializedName("MerchantID")
-    val merchantID: String?,
-    @SerializedName("MerchantName")
-    val merchantName: String?,
-    @SerializedName("PTSP")
-    val pTSP: String?,
-    @SerializedName("serialNumber")
-    val serialNumber: String?,
-    @SerializedName("Biller_ID")
-    val billerId: String?,
-    @SerializedName("TerminalID")
-    val terminalId: String?,
-    @SerializedName("baseAppVersion")
-    val baseAppVersion: String?
+data class PosParameters(
+    val BankLogo: String?,
+    val BankName: String?,
+    val BillerID: String?,
+    val City: String?,
+    val FooterMessage: String?,
+    val MerchantAddress: String?,
+    val MerchantCategoryCode: String?,
+    val MerchantID: String?,
+    val MerchantName: String?,
+    val PTSP: String?,
+    val State: String?,
+    val TerminalID: String?,
+    val baseAppVersion: String?,
+    val serialNumber: String?
 )
 
 /**
@@ -75,7 +68,11 @@ data class MobileMoneyTransactionResponse(
 data class MobileMoneyTransaction(
     val amount: String?,
     val dateTime: String?,
+    val merchantId: String?,
+    val terminalID: String?,
     val mobileNumber: String?,
+    val merchantAddress: String?,
+    val merchantName: String?,
     val responseCode: String?,
     val mobileOperator: String?,
     val referenceNumber: String?,

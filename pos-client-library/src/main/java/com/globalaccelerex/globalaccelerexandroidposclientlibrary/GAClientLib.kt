@@ -94,16 +94,16 @@ class GAClientLib private constructor(
 
     /**
      * This function should be used in the [onActivityResult] of the calling fragment or activity.
-     * It takes in the intent data returned and returns a [PosInformation] if successful.
+     * It takes in the intent data returned and returns a [PosParameters] if successful.
      *
      * If any error occurs, null is returned.
      * */
-    fun getPosParametersResponse(data: Intent?): PosInformation? {
+    fun getPosParametersResponse(data: Intent?): PosParameters? {
 
         val status = data?.getStringExtra("status")
         return if (ParsingUtil.getStatus(status) == RequestStatus.SUCCESS) {
             val jsonString = data?.getStringExtra("data")!!
-            Gson().fromJson(jsonString, PosInformation::class.java)
+            Gson().fromJson(jsonString, PosParameters::class.java)
         } else null
     }
 
@@ -136,7 +136,7 @@ class GAClientLib private constructor(
         return try {
             val status = data?.getStringExtra("status")
             val jsonData = data?.getStringExtra("data")
-
+            Log.e("mobile money", jsonData)
             val mmTransaction =
                 Gson().fromJson(jsonData, MobileMoneyTransaction::class.java)
             MobileMoneyTransactionResponse(
