@@ -23,8 +23,6 @@ class GAClientLib private constructor(
     private val countryCode: Countries
 ) {
 
-    //variable to keep track of when key exchange has been made in the app.
-    private var hasPerformedKeyExchange: Boolean = false
     private val TAG = "GAClientLib"
 
     private val parametersRequest = ParameterRequest()
@@ -57,7 +55,6 @@ class GAClientLib private constructor(
      * [callingComponent] should be either [Fragment] or [Activity]
      * */
     fun makeParametersRequest(callingComponent: Activity) {
-        makeKeyExchangeWarning()
         parametersRequest.performParameterRequest(callingComponent)
     }
 
@@ -66,7 +63,6 @@ class GAClientLib private constructor(
      * [callingComponent] should be either [Fragment] or [Activity]
      * */
     fun makeParametersRequest(callingComponent: Fragment) {
-        makeKeyExchangeWarning()
         parametersRequest.performParameterRequest(callingComponent)
     }
 
@@ -76,7 +72,6 @@ class GAClientLib private constructor(
      * [callingComponent] should be either [Fragment] or [Activity]
      * */
     fun makeKeyExchangeRequest(callingComponent: Activity) {
-        this.hasPerformedKeyExchange = true
         keyExchangeRequest.performKeyExchange(
             callingComponent = callingComponent
         )
@@ -87,7 +82,6 @@ class GAClientLib private constructor(
      * [callingComponent] should be either [Fragment] or [Activity]
      * */
     fun makeKeyExchangeRequest(callingComponent: Fragment) {
-        this.hasPerformedKeyExchange = true
         keyExchangeRequest.performKeyExchange(
             callingComponent = callingComponent
         )
@@ -147,18 +141,6 @@ class GAClientLib private constructor(
         } catch (e: Exception) {
             Log.e(TAG, e.message ?: "A transaction error occured.")
             null
-        }
-    }
-
-    /**
-     * Warning: Key exchange must be made at least once in the application's lifecycle
-     * */
-    private fun makeKeyExchangeWarning() {
-        if (!hasPerformedKeyExchange) {
-            Log.d(
-                TAG,
-                "It seems key exchange hasn't been made during this session. Make sure that is done at least once in the application's lifecycle"
-            )
         }
     }
 
