@@ -31,8 +31,6 @@ Suggestion: This initialization should be in singleton format because new initia
 
 ## Key Exchange
 
-A key exchange request should be made at least once in the application's lifecycle. To perform this action, follow the example code shown below.
-
 ```kotlin
 class MainActivity : AppCompatActivity() {
 

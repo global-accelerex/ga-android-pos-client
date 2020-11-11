@@ -2,20 +2,33 @@ package com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils
 
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.MOBILE_MONEY_STATUS_CHECK
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.RequestStatus
+import com.google.gson.annotations.SerializedName
 
 data class PosParameters(
-    val BankLogo: String?,
-    val BankName: String?,
-    val BillerID: String?,
-    val City: String?,
-    val FooterMessage: String?,
-    val MerchantAddress: String?,
-    val MerchantCategoryCode: String?,
-    val MerchantID: String?,
-    val MerchantName: String?,
-    val PTSP: String?,
-    val State: String?,
-    val TerminalID: String?,
+    @SerializedName("BankLogo")
+    val bankLogo: String?,
+    @SerializedName("BankName")
+    val bankName: String?,
+    @SerializedName("BillerID")
+    val billerID: String?,
+    @SerializedName("City")
+    val city: String?,
+    @SerializedName("FooterMessage")
+    val footerMessage: String?,
+    @SerializedName("MerchantAddress")
+    val merchantAddress: String?,
+    @SerializedName("merchantCategoryCode")
+    val merchantCategoryCode: String?,
+    @SerializedName("MerchantID")
+    val merchantID: String?,
+    @SerializedName("MerchantName")
+    val merchantName: String?,
+    @SerializedName("PTSP")
+    val ptsp: String?,
+    @SerializedName("State")
+    val state: String?,
+    @SerializedName("TerminalID")
+    val terminalID: String?,
     val baseAppVersion: String?,
     val serialNumber: String?
 )
