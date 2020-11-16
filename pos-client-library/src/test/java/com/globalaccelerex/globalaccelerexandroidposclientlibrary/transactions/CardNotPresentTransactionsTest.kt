@@ -21,23 +21,10 @@ class CardNotPresentTransactionsTest {
         cnpTrans.purchase(amount = 1.0, cardNumber = "12345555555555", cardExpiryDate = "245", callingComponent = Activity::class, customPrint = false)
     }
 
-    @Test
-    fun preAuthPurchase() {
+    @Test(expected = IllegalArgumentException::class)
+    fun test_cashBackPurchase_cashBackGreaterThanAmount_throwsException() {
+        cnpTrans.purchaseWithCashBack(amount = 1.0, cashBackAmount = 2.0 ,cardNumber = "12345555555555", cardExpiryDate = "2453", callingComponent = Activity::class, customPrint = false)
     }
 
-    @Test
-    fun preAuthCompletion() {
-    }
 
-    @Test
-    fun cardBalance() {
-    }
-
-    @Test
-    fun refund() {
-    }
-
-    @Test
-    fun reversal() {
-    }
 }
