@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nigeria_config"
+        android:title="@string/nigeria_config"
+        />
+    <item
+        android:id="@+id/kenya_config"
+        android:title="@string/kenya_config"
+        />
+    <item
+        android:id="@+id/ghana_config"
+        android:title="@string/ghana_config"
+        />
+</menu>

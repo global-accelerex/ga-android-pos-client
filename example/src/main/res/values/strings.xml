@@ -2,4 +2,7 @@
     <string name="app_name">AndroidPosClientLibrary</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nigeria_config">Nigeria config</string>
+    <string name="kenya_config">Kenyan Config</string>
+    <string name="ghana_config">Ghana Config</string>
 </resources>

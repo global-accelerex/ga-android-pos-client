@@ -2,16 +2,19 @@ package com.globalaccelerex.androidposclientlibrary
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.GAClientLib
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.PosParameters
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.printing.FontSize
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.printing.ReceiptFormat
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.printing.TextAlignment
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.*
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.Countries
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.MobileMoneyOperators
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.Exception
 
 /**
  * This activity shows an example of how each library function is used.
@@ -20,48 +23,100 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class ActivitySample : AppCompatActivity() {
 
-    private val clientLib = GAClientLib.Builder()
-        .setCountryCode(Countries.KENYA)
+    //By default the library is initialized with Nigerian configuration.
+    private var clientLib: GAClientLib = GAClientLib.Builder()
+        .setCountryCode(Countries.NIGERIA)
         .build()
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.pos_config_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.nigeria_config -> {
+                clientLib = GAClientLib.Builder()
+                    .setCountryCode(Countries.NIGERIA)
+                    .build()
+                Toast.makeText(this, "Currently operating with Nigeria configuration", Toast.LENGTH_SHORT).show()
+            }
+            R.id.kenya_config -> {
+                clientLib = GAClientLib.Builder()
+                    .setCountryCode(Countries.KENYA)
+                    .build()
+                Toast.makeText(this, "Currently operating with Kenya configuration", Toast.LENGTH_SHORT).show()
+            }
+            R.id.ghana_config -> {
+                clientLib = GAClientLib.Builder()
+                    .setCountryCode(Countries.GHANA)
+                    .build()
+                Toast.makeText(this, "Currently operating with Ghana configuration", Toast.LENGTH_SHORT).show()
+            }
+        }
+        return true
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         //Make Key Exchange
-        key_exchange.setOnClickListener {
-            clientLib.makeKeyExchangeRequest(this)
+        try {
+            key_exchange.setOnClickListener {
+                clientLib.makeKeyExchangeRequest(this)
+            }
+        } catch (e: Exception) {
+            Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
         }
 
         //Make parameter request
-        paramter_request.setOnClickListener {
-            clientLib.makeParametersRequest(this)
+        try {
+            paramter_request.setOnClickListener {
+                clientLib.makeParametersRequest(this)
+            }
+        } catch (e: Exception) {
+            Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
         }
 
         //Make Card Present Transactions (CP)
-        transaction_request.setOnClickListener {
-            clientLib.cardTransactions.purchase(
-                amount = 0.01,
-                callingComponent = this,
-                customPrint = true
-            )
+        try {
+            transaction_request.setOnClickListener {
+                clientLib.cardTransactions.purchase(
+                    amount = 0.01,
+                    callingComponent = this,
+                    customPrint = true
+                )
+            }
+        } catch (e: Exception) {
+            Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
         }
-        mobile_money_request.setOnClickListener {
-            clientLib.mobileMoneyTransaction.purchase(
-                phoneNumber = "08143051805",
-                amount = 1.0,
-                mobileOperator = MobileMoneyOperators.MTN,
-                callingComponent = this
-            )
+
+        try {
+            mobile_money_request.setOnClickListener {
+                clientLib.mobileMoneyTransaction.purchase(
+                    phoneNumber = "08143051805",
+                    amount = 1.0,
+                    mobileOperator = MobileMoneyOperators.MTN,
+                    callingComponent = this
+                )
+            }
+        } catch (e: Exception) {
+            Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
         }
-        cnp_purchase.setOnClickListener {
-            clientLib.cardNotPresentTransactions.purchase(
-                cardNumber = "5196010125746208",
-                cardExpiryDate = "2302",
-                callingComponent = this,
-                amount = 1.0,
-                customPrint = false
-            )
+
+        try {
+            cnp_purchase.setOnClickListener {
+                clientLib.cardNotPresentTransactions.purchase(
+                    cardNumber = "5196010125746208",
+                    cardExpiryDate = "2302",
+                    callingComponent = this,
+                    amount = 1.0,
+                    customPrint = false
+                )
+            }
+        } catch (e: Exception) {
+            Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
         }
 
         print_receipt.setOnClickListener {
@@ -84,25 +139,7 @@ class ActivitySample : AppCompatActivity() {
         //Note that the Request key will always match the transaction type with "REQUEST_CODE" appended to it.
 
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == GaRequestKeys.PARAMETERS_REQUEST_CODE) {
-                val posInfo: PosParameters? = clientLib.getPosParametersResponse(data)
-                Log.e("PosInfo", "$posInfo")
-            }
-            if (requestCode == GaRequestKeys.CNP_PURCHASE_REQUEST_CODE) {
-                val posInfo: PosParameters? = clientLib.getPosParametersResponse(data)
-                Log.e("PosInfo", "$posInfo")
-            }
-            if (requestCode == GaRequestKeys.KEY_EXCHANGE_REQUEST_CODE) {
-                Log.e("Key exchange", "Key exchange successful!")
-            }
-            if (requestCode == GaRequestKeys.CP_PURCHASE_REQUEST_CODE) {
-                val cardResponseDetails = clientLib.getCardTransactionResponse(data)
-                Log.e("Purchase response", "$cardResponseDetails")
-            }
-            if (requestCode == GaRequestKeys.MOBILE_MONEY_PURCHASE_REQUEST_CODE) {
-                val cardResponseDetails = clientLib.getMobileMoneyTransactionResponse(data)
-                Log.e("Purchase response", "$cardResponseDetails")
-            }
+
         }
     }
 

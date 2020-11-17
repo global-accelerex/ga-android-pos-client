@@ -44,6 +44,7 @@ class GAClientLib private constructor(
         fun build() = GAClientLib(countryCode!!)
     }
 
+    var countryConfig = TerminalInformation.TERMINAL_MODE
     val cardTransactions by lazy { CardTransactions() }
     val cardNotPresentTransactions by lazy { CardNotPresentTransactions(countryCode) }
     val mobileMoneyTransaction by lazy { MobileMoneyTransactions(countryCode) }
