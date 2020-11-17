@@ -32,6 +32,18 @@ class CardTransactions {
         )
     }
 
+    /**
+     *
+     *  @throws IllegalArgumentException if [cashBackAmount] is greater than [amount]
+     *
+     *  This function is used to make card transactions on the POS device.
+     *  [callingComponent] should be either [Fragment] or [Activity]
+     *
+     *  @param amount: Amount for the transaction to be made. Amount should always be in [Double] format
+     *  @param callingComponent: This represents the class from which the function is called. Calling component must be of [Activity]. Overloaded function handles fragment cases.
+     *  @param customPrint: Set this to true if you want to design your own receipt format. If set to false, the default printing format will be used.
+     *  @param cashBackAmount: This represents the cashback amount and it should be less than or equal to the transaction amount.
+     * */
     fun purchaseWithCashBack(
         amount: Double,
         callingComponent: Any,

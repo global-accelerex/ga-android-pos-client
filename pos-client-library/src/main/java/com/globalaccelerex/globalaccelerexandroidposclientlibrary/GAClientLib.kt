@@ -16,7 +16,7 @@ import com.google.gson.Gson
 
 /**
  * Entry point.
- * Instance of this object gives you the ability to make requests to the POS application.
+ * Instance of this object gives you the ability to make requests to the POS base application.
  * A single instance of this class is to be used in the application scope to make POS transactions.
  * */
 class GAClientLib private constructor(
@@ -30,8 +30,7 @@ class GAClientLib private constructor(
 
     init {
         /**
-         * Terminal parameters are specified to enable compatibility with all our
-         * pos devices and countries supported
+         * Terminal information contains configuration to enable required features available in your region.
          * */
         TerminalInformation.setTerminalMode(
             country = countryCode
@@ -52,36 +51,17 @@ class GAClientLib private constructor(
 
     /**
      * This function is used to get the parameter details of the POS device being used.
-     * [callingComponent] should be either [Fragment] or [Activity]
+     * [callingComponent] should be either [Fragment] or [Activity] or their subclasses.
      * */
-    fun makeParametersRequest(callingComponent: Activity) {
+    fun makeParametersRequest(callingComponent: Any) {
         parametersRequest.performParameterRequest(callingComponent)
     }
 
     /**
-     * This function is used to get the parameter details of the POS device being used.
-     * [callingComponent] should be either [Fragment] or [Activity]
-     * */
-    fun makeParametersRequest(callingComponent: Fragment) {
-        parametersRequest.performParameterRequest(callingComponent)
-    }
-
-
-    /**
      * This function is used to make key exchange on the POS device being used.
-     * [callingComponent] should be either [Fragment] or [Activity]
+     * [callingComponent] should be either [Fragment] or [Activity] or their subclasses.
      * */
-    fun makeKeyExchangeRequest(callingComponent: Activity) {
-        keyExchangeRequest.performKeyExchange(
-            callingComponent = callingComponent
-        )
-    }
-
-    /**
-     * This function is used to make key exchange on the POS device being used.
-     * [callingComponent] should be either [Fragment] or [Activity]
-     * */
-    fun makeKeyExchangeRequest(callingComponent: Fragment) {
+    fun makeKeyExchangeRequest(callingComponent: Any) {
         keyExchangeRequest.performKeyExchange(
             callingComponent = callingComponent
         )
@@ -94,10 +74,9 @@ class GAClientLib private constructor(
      * If any error occurs, null is returned.
      * */
     fun getPosParametersResponse(data: Intent?): PosParameters? {
-
         val status = data?.getStringExtra("status")
         return if (ParsingUtil.getStatus(status) == RequestStatus.SUCCESS) {
-            val jsonString = data?.getStringExtra("data")!!
+            val jsonString = data?.getStringExtra("data")
             Gson().fromJson(jsonString, PosParameters::class.java)
         } else null
     }
@@ -106,6 +85,7 @@ class GAClientLib private constructor(
      * This function should be used in the [onActivityResult] of the calling fragment or activity.
      * It takes in the intent data returned and returns a [CardTransactionResponse].
      *
+     * If any error occurs, null is returned.
      * */
     fun getCardTransactionResponse(data: Intent?): CardTransactionResponse? {
         return try {
@@ -126,6 +106,7 @@ class GAClientLib private constructor(
      * This function should be used in the [onActivityResult] of the calling fragment or activity.
      * It takes in the intent data returned and returns a [MobileMoneyTransactionResponse].
      *
+     * If any error occurs, null is returned.
      * */
     fun getMobileMoneyTransactionResponse(data: Intent?): MobileMoneyTransactionResponse? {
         return try {

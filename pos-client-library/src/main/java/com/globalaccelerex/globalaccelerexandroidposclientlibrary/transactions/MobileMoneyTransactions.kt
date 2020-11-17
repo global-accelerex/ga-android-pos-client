@@ -18,6 +18,15 @@ class MobileMoneyTransactions(countryCode: Countries) {
         }
     }
 
+
+    /**
+     * This method is used to make mobile money purchases
+     * @throws UnsupportedFeatureException if this method is called in a different configuration from Ghana
+     * @param mobileOperator is of type [MobileMoneyOperators] which are the available networks supported by our terminals.
+     * @param phoneNumber is the phone number of the client to be charged for the transaction
+     * @param callingComponent The calling component is the class from which this method is called.
+     *          It should be of type [Activity], [Fragment] or their subclasses.
+     * */
     fun purchase(
         mobileOperator: MobileMoneyOperators,
         amount: Double,
