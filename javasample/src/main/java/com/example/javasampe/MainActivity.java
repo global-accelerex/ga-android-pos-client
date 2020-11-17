@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
                 format.addSingleLine("This is a java test line", TextAlignment.ALIGN_LEFT, null , false);
                 format.addSingleLine("Just to confirm!!", TextAlignment.ALIGN_CENTER, null, false);
                 Receipt receipt = format.generatePaymentReceipt();
-                clientLib.printReceipt(receipt, MainActivity.this);
+                clientLib.getPrinter().printReceipt(receipt, MainActivity.this);
             }
         });
 
