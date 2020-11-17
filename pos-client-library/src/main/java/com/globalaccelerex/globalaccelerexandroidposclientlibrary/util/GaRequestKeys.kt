@@ -5,6 +5,8 @@ object GaRequestKeys {
     const val KEY_EXCHANGE_REQUEST_CODE = 1002
     const val CP_PURCHASE_REQUEST_CODE = 1003
     const val CP_PURCHASE_WITH_CASHBACK_REQUEST_CODE = 1004
+    const val CP_REVERSAL_REQUEST_CODE = 1015
+    const val CP_REFUND_REQUEST_CODE = 1016
     const val MOBILE_MONEY_PURCHASE_REQUEST_CODE = 1005
     const val MOBILE_MONEY_STATUS_CHECK_REQUEST_CODE = 1006
     const val CNP_PURCHASE_REQUEST_CODE = 1007
@@ -13,7 +15,8 @@ object GaRequestKeys {
     const val CNP_PRE_AUTH_COMPLETION_REQUEST_CODE = 1010
     const val CNP_CARD_BALANCE_REQUEST_CODE = 1011
     const val CNP_REFUND_REQUEST_CODE = 1012
-    const val PRINTING_REQUEST_CODE = 1013
+    const val CNP_REVERSAL_REQUEST_CODE = 1013
+    const val PRINTING_REQUEST_CODE = 1014
 }
 
 object TransactionStatusCodes {
