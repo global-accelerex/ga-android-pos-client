@@ -3,7 +3,6 @@ package com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils
 import android.app.Activity
 import android.content.Intent
 import androidx.fragment.app.Fragment
-import androidx.preference.PreferenceFragmentCompat
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.PARAMETERS_REQUEST_FORMAT
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.PARAMETERS_REQUEST_INTENT_ADDRESS
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.REQUEST_DATA_TAG
@@ -31,9 +30,6 @@ internal class ParameterRequest {
                         callingComponent.startActivityForResult(intent, PARAMETERS_REQUEST_CODE)
                     }
                     is Fragment -> {
-                        callingComponent.startActivityForResult(intent, PARAMETERS_REQUEST_CODE)
-                    }
-                    is PreferenceFragmentCompat -> {
                         callingComponent.startActivityForResult(intent, PARAMETERS_REQUEST_CODE)
                     }
                     else -> throw UnsupportedCallingComponentException("Unsupported calling component.")

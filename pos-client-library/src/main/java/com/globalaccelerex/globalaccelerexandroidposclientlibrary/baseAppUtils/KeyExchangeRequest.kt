@@ -3,7 +3,6 @@ package com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils
 import android.app.Activity
 import android.content.Intent
 import androidx.fragment.app.Fragment
-import androidx.preference.PreferenceFragmentCompat
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.TerminalInformation.GHANA_TERMINAL_MODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.TerminalInformation.NIGERIA_TERMINAL_MODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.TerminalInformation.TERMINAL_MODE
@@ -21,9 +20,6 @@ internal class KeyExchangeRequest {
                         callingComponent.startActivityForResult(intent, GaRequestKeys.KEY_EXCHANGE_REQUEST_CODE)
                     }
                     is Fragment -> {
-                        callingComponent.startActivityForResult(intent, GaRequestKeys.KEY_EXCHANGE_REQUEST_CODE)
-                    }
-                    is PreferenceFragmentCompat -> {
                         callingComponent.startActivityForResult(intent, GaRequestKeys.KEY_EXCHANGE_REQUEST_CODE)
                     }
                     else -> throw UnsupportedCallingComponentException("Unsupported calling component.")
