@@ -38,6 +38,7 @@ class CardTransactions {
         customPrint: Boolean,
         cashBackAmount: Double
     ) {
+        require(amount >= cashBackAmount) { "Cash back amount cannot be greater than transaction amount" }
         transactionRequest.performCPCashBackTransactionRequest(
             amount = amount,
             callingComponent = callingComponent,

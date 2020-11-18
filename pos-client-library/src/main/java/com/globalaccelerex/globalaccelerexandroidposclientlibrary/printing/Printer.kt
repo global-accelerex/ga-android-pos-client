@@ -22,7 +22,6 @@ class Printer {
             }
             else -> throw UnsupportedCallingComponentException("Make sure you are calling from a supported android component.")
         }
-
     }
 
 }

@@ -46,6 +46,8 @@ internal class TransactionRequest {
         val transJson = Gson().toJson(transactionObject)
         val intent = Intent(TRANSACTION_REQUEST_INTENT_ADDRESS)
         intent.putExtra(REQUEST_DATA_TAG, transJson)
+
+
         when (callingComponent) {
             is Fragment -> {
                 callingComponent.startActivityForResult(intent, CP_PURCHASE_REQUEST_CODE)
@@ -75,10 +77,14 @@ internal class TransactionRequest {
         val transJson = Gson().toJson(transactionObject)
         val intent = Intent(TRANSACTION_REQUEST_INTENT_ADDRESS)
         intent.putExtra(REQUEST_DATA_TAG, transJson)
-        if (callingComponent is Fragment) {
-            callingComponent.startActivityForResult(intent, CP_PURCHASE_WITH_CASHBACK_REQUEST_CODE)
-        } else if (callingComponent is Activity) {
-            callingComponent.startActivityForResult(intent, CP_PURCHASE_WITH_CASHBACK_REQUEST_CODE)
+        when (callingComponent) {
+            is Fragment -> {
+                callingComponent.startActivityForResult(intent, CP_PURCHASE_WITH_CASHBACK_REQUEST_CODE)
+            }
+            is Activity -> {
+                callingComponent.startActivityForResult(intent, CP_PURCHASE_WITH_CASHBACK_REQUEST_CODE)
+            }
+            else ->  throw UnsupportedCallingComponentException("Unsupported calling component.")
         }
     }
 
@@ -100,10 +106,14 @@ internal class TransactionRequest {
         val transJson = Gson().toJson(transactionObject)
         val intent = Intent(CARD_NOT_PRESENT_TRANSACTION_INTENT)
         intent.putExtra(REQUEST_DATA_TAG, transJson)
-        if (callingComponent is Fragment) {
-            callingComponent.startActivityForResult(intent, CNP_PURCHASE_REQUEST_CODE)
-        } else if (callingComponent is Activity) {
-            callingComponent.startActivityForResult(intent, CNP_PURCHASE_REQUEST_CODE)
+        when (callingComponent) {
+            is Fragment -> {
+                callingComponent.startActivityForResult(intent, CNP_PURCHASE_REQUEST_CODE)
+            }
+            is Activity -> {
+                callingComponent.startActivityForResult(intent, CNP_PURCHASE_REQUEST_CODE)
+            }
+            else -> throw UnsupportedCallingComponentException("Unsupported calling component.")
         }
     }
 
@@ -127,10 +137,14 @@ internal class TransactionRequest {
         val transJson = Gson().toJson(transactionObject)
         val intent = Intent(CARD_NOT_PRESENT_TRANSACTION_INTENT)
         intent.putExtra(REQUEST_DATA_TAG, transJson)
-        if (callingComponent is Fragment) {
-            callingComponent.startActivityForResult(intent, CNP_PURCHASE_WITH_CB_REQUEST_CODE)
-        } else if (callingComponent is Activity) {
-            callingComponent.startActivityForResult(intent, CNP_PURCHASE_WITH_CB_REQUEST_CODE)
+        when (callingComponent) {
+            is Fragment -> {
+                callingComponent.startActivityForResult(intent, CNP_PURCHASE_WITH_CB_REQUEST_CODE)
+            }
+            is Activity -> {
+                callingComponent.startActivityForResult(intent, CNP_PURCHASE_WITH_CB_REQUEST_CODE)
+            }
+            else -> throw UnsupportedCallingComponentException("Unsupported calling component.")
         }
     }
 
@@ -152,10 +166,14 @@ internal class TransactionRequest {
         val transJson = Gson().toJson(transactionObject)
         val intent = Intent(CARD_NOT_PRESENT_TRANSACTION_INTENT)
         intent.putExtra(REQUEST_DATA_TAG, transJson)
-        if (callingComponent is Fragment) {
-            callingComponent.startActivityForResult(intent, CNP_PRE_AUTH_PURCHASE_REQUEST_CODE)
-        } else if (callingComponent is Activity) {
-            callingComponent.startActivityForResult(intent, CNP_PRE_AUTH_PURCHASE_REQUEST_CODE)
+        when (callingComponent) {
+            is Fragment -> {
+                callingComponent.startActivityForResult(intent, CNP_PRE_AUTH_PURCHASE_REQUEST_CODE)
+            }
+            is Activity -> {
+                callingComponent.startActivityForResult(intent, CNP_PRE_AUTH_PURCHASE_REQUEST_CODE)
+            }
+            else -> throw UnsupportedCallingComponentException("Unsupported calling component.")
         }
     }
 
@@ -179,10 +197,14 @@ internal class TransactionRequest {
         val transJson = Gson().toJson(transactionObject)
         val intent = Intent(CARD_NOT_PRESENT_TRANSACTION_INTENT)
         intent.putExtra(REQUEST_DATA_TAG, transJson)
-        if (callingComponent is Fragment) {
-            callingComponent.startActivityForResult(intent, CNP_PRE_AUTH_COMPLETION_REQUEST_CODE)
-        } else if (callingComponent is Activity) {
-            callingComponent.startActivityForResult(intent, CNP_PRE_AUTH_COMPLETION_REQUEST_CODE)
+        when (callingComponent) {
+            is Fragment -> {
+                callingComponent.startActivityForResult(intent, CNP_PRE_AUTH_COMPLETION_REQUEST_CODE)
+            }
+            is Activity -> {
+                callingComponent.startActivityForResult(intent, CNP_PRE_AUTH_COMPLETION_REQUEST_CODE)
+            }
+            else -> throw UnsupportedCallingComponentException("Unsupported calling component.")
         }
     }
 
@@ -202,10 +224,14 @@ internal class TransactionRequest {
         val transJson = Gson().toJson(transactionObject)
         val intent = Intent(CARD_NOT_PRESENT_TRANSACTION_INTENT)
         intent.putExtra(REQUEST_DATA_TAG, transJson)
-        if (callingComponent is Fragment) {
-            callingComponent.startActivityForResult(intent, CNP_CARD_BALANCE_REQUEST_CODE)
-        } else if (callingComponent is Activity) {
-            callingComponent.startActivityForResult(intent, CNP_CARD_BALANCE_REQUEST_CODE)
+        when (callingComponent) {
+            is Fragment -> {
+                callingComponent.startActivityForResult(intent, CNP_CARD_BALANCE_REQUEST_CODE)
+            }
+            is Activity -> {
+                callingComponent.startActivityForResult(intent, CNP_CARD_BALANCE_REQUEST_CODE)
+            }
+            else -> throw UnsupportedCallingComponentException("Unsupported calling component.")
         }
     }
 
@@ -227,10 +253,14 @@ internal class TransactionRequest {
         val transJson = Gson().toJson(transactionObject)
         val intent = Intent(CARD_NOT_PRESENT_TRANSACTION_INTENT)
         intent.putExtra(REQUEST_DATA_TAG, transJson)
-        if (callingComponent is Fragment) {
-            callingComponent.startActivityForResult(intent, CNP_REFUND_REQUEST_CODE)
-        } else if (callingComponent is Activity) {
-            callingComponent.startActivityForResult(intent, CNP_REFUND_REQUEST_CODE)
+        when (callingComponent) {
+            is Fragment -> {
+                callingComponent.startActivityForResult(intent, CNP_REFUND_REQUEST_CODE)
+            }
+            is Activity -> {
+                callingComponent.startActivityForResult(intent, CNP_REFUND_REQUEST_CODE)
+            }
+            else -> throw UnsupportedCallingComponentException("Unsupported calling component.")
         }
     }
 
@@ -254,10 +284,14 @@ internal class TransactionRequest {
         val transJson = Gson().toJson(transactionObject)
         val intent = Intent(CARD_NOT_PRESENT_TRANSACTION_INTENT)
         intent.putExtra(REQUEST_DATA_TAG, transJson)
-        if (callingComponent is Fragment) {
-            callingComponent.startActivityForResult(intent, CNP_REFUND_REQUEST_CODE)
-        } else if (callingComponent is Activity) {
-            callingComponent.startActivityForResult(intent, CNP_REFUND_REQUEST_CODE)
+        when (callingComponent) {
+            is Fragment -> {
+                callingComponent.startActivityForResult(intent, CNP_REFUND_REQUEST_CODE)
+            }
+            is Activity -> {
+                callingComponent.startActivityForResult(intent, CNP_REFUND_REQUEST_CODE)
+            }
+            else -> throw UnsupportedCallingComponentException("Unsupported calling component.")
         }
     }
 
@@ -277,10 +311,14 @@ internal class TransactionRequest {
         val transJson = Gson().toJson(transactionObject)
         val intent = Intent(MOBILE_MONEY_TRANSACTION_INTENT_ADDRESS)
         intent.putExtra(MOBILE_MONEY_REQUEST_DATA_TAG, transJson)
-        if (callingComponent is Fragment) {
-            callingComponent.startActivityForResult(intent, MOBILE_MONEY_PURCHASE_REQUEST_CODE)
-        } else if (callingComponent is Activity) {
-            callingComponent.startActivityForResult(intent, MOBILE_MONEY_PURCHASE_REQUEST_CODE)
+        when (callingComponent) {
+            is Fragment -> {
+                callingComponent.startActivityForResult(intent, MOBILE_MONEY_PURCHASE_REQUEST_CODE)
+            }
+            is Activity -> {
+                callingComponent.startActivityForResult(intent, MOBILE_MONEY_PURCHASE_REQUEST_CODE)
+            }
+            else -> throw UnsupportedCallingComponentException("Unsupported calling component.")
         }
     }
 
@@ -299,10 +337,14 @@ internal class TransactionRequest {
         val transJson = Gson().toJson(transactionObject)
         val intent = Intent(MOBILE_MONEY_TRANSACTION_INTENT_ADDRESS)
         intent.putExtra(MOBILE_MONEY_REQUEST_DATA_TAG, transJson)
-        if (callingComponent is Fragment) {
-            callingComponent.startActivityForResult(intent, MOBILE_MONEY_STATUS_CHECK_REQUEST_CODE)
-        } else if (callingComponent is Activity) {
-            callingComponent.startActivityForResult(intent, MOBILE_MONEY_STATUS_CHECK_REQUEST_CODE)
+        when (callingComponent) {
+            is Fragment -> {
+                callingComponent.startActivityForResult(intent, MOBILE_MONEY_STATUS_CHECK_REQUEST_CODE)
+            }
+            is Activity -> {
+                callingComponent.startActivityForResult(intent, MOBILE_MONEY_STATUS_CHECK_REQUEST_CODE)
+            }
+            else -> throw UnsupportedCallingComponentException("Unsupported calling component.")
         }
     }
 }
