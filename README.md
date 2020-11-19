@@ -149,7 +149,7 @@ All transactions usually follow the same format. However you can take a look at 
 ## Printing a reciept
 To print a receipt, a receiptFormat object has to be created which will be used to construct the parameters to be printed. After this is done, you can pass the format to the print receipt method as shown in the example below:
 
-```
+```kotlin
           val receiptFormat = ReceiptFormat(applicationContext)
             receiptFormat.addSingleLine("This is a default line")
             receiptFormat.addSingleLine("This is a bold line", isBold = true)
