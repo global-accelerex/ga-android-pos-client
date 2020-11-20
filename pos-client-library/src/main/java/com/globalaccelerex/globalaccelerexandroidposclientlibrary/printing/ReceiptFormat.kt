@@ -13,12 +13,6 @@ class ReceiptFormat(private val context: Context) {
 
     private val customerFooter = "***** CUSTOMER COPY *****"
 
-
-
-    init {
-
-    }
-
     fun addLineDivider(){
         addSingleLine(text =  "-".repeat(32), textAlignment = TextAlignment.ALIGN_CENTER)
     }

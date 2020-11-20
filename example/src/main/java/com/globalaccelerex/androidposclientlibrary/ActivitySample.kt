@@ -48,19 +48,10 @@ class ActivitySample : AppCompatActivity() {
         }
         mobile_money_request.setOnClickListener {
             clientLib.mobileMoneyTransaction.purchase(
-                phoneNumber = "08143051805",
+                phoneNumber = "8133251805",
                 amount = 1.0,
                 mobileOperator = MobileMoneyOperators.MTN,
                 callingComponent = this
-            )
-        }
-        cnp_purchase.setOnClickListener {
-            clientLib.cardNotPresentTransactions.purchase(
-                cardNumber = "5196010125746208",
-                cardExpiryDate = "2302",
-                callingComponent = this,
-                amount = 1.0,
-                customPrint = false
             )
         }
 
@@ -85,10 +76,6 @@ class ActivitySample : AppCompatActivity() {
 
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == GaRequestKeys.PARAMETERS_REQUEST_CODE) {
-                val posInfo: PosParameters? = clientLib.getPosParametersResponse(data)
-                Log.e("PosInfo", "$posInfo")
-            }
-            if (requestCode == GaRequestKeys.CNP_PURCHASE_REQUEST_CODE) {
                 val posInfo: PosParameters? = clientLib.getPosParametersResponse(data)
                 Log.e("PosInfo", "$posInfo")
             }

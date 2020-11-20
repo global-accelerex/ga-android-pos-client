@@ -24,6 +24,9 @@ import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequest
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CNP_PURCHASE_REQUEST_CODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CNP_PURCHASE_WITH_CB_REQUEST_CODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CNP_REFUND_REQUEST_CODE
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CNP_REVERSAL_REQUEST_CODE
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CP_REFUND_REQUEST_CODE
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CP_REVERSAL_REQUEST_CODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.MOBILE_MONEY_PURCHASE_REQUEST_CODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.MOBILE_MONEY_STATUS_CHECK_REQUEST_CODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.MobileMoneyOperators
@@ -83,6 +86,58 @@ internal class TransactionRequest {
             }
             is Activity -> {
                 callingComponent.startActivityForResult(intent, CP_PURCHASE_WITH_CASHBACK_REQUEST_CODE)
+            }
+            else ->  throw UnsupportedCallingComponentException("Unsupported calling component.")
+        }
+    }
+
+    fun performCPReversalRequest(
+        amount: Double,
+        rrn: String,
+        customPrint: Boolean,
+        callingComponent: Any
+    ) {
+        val transactionObject = CardReversalTransactionObject(
+            amount = amount.toPosAmount(),
+            rrn = rrn,
+            print = (!customPrint).toString(),
+            transType = TRANSACTION_TYPE_REVERSAL
+        )
+        val transJson = Gson().toJson(transactionObject)
+        val intent = Intent(TRANSACTION_REQUEST_INTENT_ADDRESS)
+        intent.putExtra(REQUEST_DATA_TAG, transJson)
+        when (callingComponent) {
+            is Fragment -> {
+                callingComponent.startActivityForResult(intent, CP_REVERSAL_REQUEST_CODE)
+            }
+            is Activity -> {
+                callingComponent.startActivityForResult(intent, CP_REVERSAL_REQUEST_CODE)
+            }
+            else ->  throw UnsupportedCallingComponentException("Unsupported calling component.")
+        }
+    }
+
+    fun performCPRefundRequest(
+        amount: Double,
+        rrn: String,
+        customPrint: Boolean,
+        callingComponent: Any
+    ) {
+        val transactionObject = CardReversalTransactionObject(
+            amount = amount.toPosAmount(),
+            rrn = rrn,
+            print = (!customPrint).toString(),
+            transType = TRANSACTION_TYPE_REFUND
+        )
+        val transJson = Gson().toJson(transactionObject)
+        val intent = Intent(TRANSACTION_REQUEST_INTENT_ADDRESS)
+        intent.putExtra(REQUEST_DATA_TAG, transJson)
+        when (callingComponent) {
+            is Fragment -> {
+                callingComponent.startActivityForResult(intent, CP_REFUND_REQUEST_CODE)
+            }
+            is Activity -> {
+                callingComponent.startActivityForResult(intent, CP_REFUND_REQUEST_CODE)
             }
             else ->  throw UnsupportedCallingComponentException("Unsupported calling component.")
         }
@@ -286,10 +341,10 @@ internal class TransactionRequest {
         intent.putExtra(REQUEST_DATA_TAG, transJson)
         when (callingComponent) {
             is Fragment -> {
-                callingComponent.startActivityForResult(intent, CNP_REFUND_REQUEST_CODE)
+                callingComponent.startActivityForResult(intent, CNP_REVERSAL_REQUEST_CODE)
             }
             is Activity -> {
-                callingComponent.startActivityForResult(intent, CNP_REFUND_REQUEST_CODE)
+                callingComponent.startActivityForResult(intent, CNP_REVERSAL_REQUEST_CODE)
             }
             else -> throw UnsupportedCallingComponentException("Unsupported calling component.")
         }

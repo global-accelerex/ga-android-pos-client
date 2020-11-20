@@ -162,3 +162,10 @@ internal data class CardNotPresentPreAuthCompletionRequest(
     val rrn: String,
     var transType: String = ""
 )
+
+internal data class CardReversalTransactionObject(
+    val transType: String,
+    val rrn: String,
+    val amount: String,
+    val print: String
+)
