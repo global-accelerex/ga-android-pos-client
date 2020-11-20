@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     }
 }
 ```
-Note that the function must be called from withing an Activity or a Fragment.
+Note that the function must be called from within an Activity or a Fragment.
 
 ## Parameters Request
 To get the details of the POS terminal being used, follow this example:
