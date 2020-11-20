@@ -1,70 +1,91 @@
 package com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils
 
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.MOBILE_MONEY_STATUS_CHECK
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.RequestStatus
 import com.google.gson.annotations.SerializedName
 
-data class PosInformation(
+data class PosParameters(
+    @SerializedName("BankLogo")
+    val bankLogo: String?,
     @SerializedName("BankName")
     val bankName: String?,
-    @SerializedName("Location")
-    val location: String?,
+    @SerializedName("BillerID")
+    val billerID: String?,
+    @SerializedName("City")
+    val city: String?,
     @SerializedName("FooterMessage")
     val footerMessage: String?,
+    @SerializedName("MerchantAddress")
+    val merchantAddress: String?,
+    @SerializedName("merchantCategoryCode")
+    val merchantCategoryCode: String?,
     @SerializedName("MerchantID")
     val merchantID: String?,
     @SerializedName("MerchantName")
     val merchantName: String?,
     @SerializedName("PTSP")
-    val pTSP: String?,
-    @SerializedName("serialNumber")
-    val serialNumber: String?,
-    @SerializedName("Biller_ID")
-    val billerId: String?,
+    val ptsp: String?,
+    @SerializedName("State")
+    val state: String?,
     @SerializedName("TerminalID")
-    val terminalId: String?,
-    @SerializedName("baseAppVersion")
-    val baseAppVersion: String?
+    val terminalID: String?,
+    val baseAppVersion: String?,
+    val serialNumber: String?
 )
 
 /**
  * This is a response class to card transactions made.
  *
- * @param status: This indicates the status of the transaction made. Refer to docs to find out the different codes and their meaning
+ * @param requestStatus: This indicates the status of the transaction made from the POS. Refer to docs to find out the different codes and their meaning
  * @param transactionData: This contains the card details and more information about the transaction that has been made
  * */
 data class CardTransactionResponse(
-    val status: String,
+    val requestStatus: RequestStatus?,
     val transactionData: CardTransaction?
 )
 
 data class CardTransaction(
-    @SerializedName("statuscode") val statuscode: String?,
-    @SerializedName("message") val message: String?,
-    @SerializedName("terminalID") val terminalID: String?,
-    @SerializedName("rrn") val rrn: String?,
-    @SerializedName("stan") val stan: String?,
-    @SerializedName("amount") val amount: String?,
-    @SerializedName("datetime") var datetime: String?,
-    @SerializedName("authcode") val authcode: String? = "",
-    @SerializedName("cardHolderName") val cardHolderName: String?,
-    @SerializedName("maskedPan") val maskedPan: String?,
-    @SerializedName("appLabel") val cardScheme: String?,
-    @SerializedName("cardExpireDate") val cardExpireDate: String?,
-    @SerializedName("aid") val aid: String?,
-    @SerializedName("nuban") val nuban: String? = "",
-    @SerializedName("pinType") val pinType: String? = "",
-    @SerializedName("statusDescription") val statusDescription: String? = ""
+    val aid: String?,
+    val amount: String?,
+    val appLabel: String?,
+    val authcode: String?,
+    val bankLogo: String?,
+    val bankName: String?,
+    val baseAppVersion: String?,
+    val cardExpireDate: String?,
+    val cardHolderName: String?,
+    val cashBackAmount: String?,
+    val datetime: String?,
+    val footerMessage: String?,
+    val maskedPan: String?,
+    val merchantAddress: String?,
+    val merchantCategoryCode: String?,
+    val merchantId: String?,
+    val merchantName: String?,
+    val message: String?,
+    val nuban: String?,
+    val pinType: String?,
+    val ptsp: String?,
+    val rrn: String?,
+    val stan: String?,
+    val statuscode: String?,
+    val terminalID: String?,
+    val transactionType: String?
 )
 
 data class MobileMoneyTransactionResponse(
-    val status: String,
+    val status: RequestStatus,
     val transactionData: MobileMoneyTransaction
 )
 
 data class MobileMoneyTransaction(
     val amount: String?,
     val dateTime: String?,
+    val merchantId: String?,
+    val terminalID: String?,
     val mobileNumber: String?,
+    val merchantAddress: String?,
+    val merchantName: String?,
     val responseCode: String?,
     val mobileOperator: String?,
     val referenceNumber: String?,
@@ -140,4 +161,11 @@ internal data class CardNotPresentPreAuthCompletionRequest(
     val amount: String,
     val rrn: String,
     var transType: String = ""
+)
+
+internal data class CardReversalTransactionObject(
+    val transType: String,
+    val rrn: String,
+    val amount: String,
+    val print: String
 )

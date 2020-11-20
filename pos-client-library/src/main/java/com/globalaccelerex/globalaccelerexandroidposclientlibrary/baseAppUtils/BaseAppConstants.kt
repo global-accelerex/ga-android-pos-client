@@ -7,6 +7,7 @@ internal object BaseAppConstants {
     const val TRANSACTION_REQUEST_INTENT_ADDRESS = "com.globalaccelerex.transaction"
     const val MOBILE_MONEY_TRANSACTION_INTENT_ADDRESS = "com.globalaccelerex.gh_mobile_money"
     const val CARD_NOT_PRESENT_TRANSACTION_INTENT = "com.globalaccelerex.card_not_present"
+    const val PRINTER_INTENT_ADDRESS = "com.globalaccelerex.printer"
 
 
     const val REQUEST_DATA_TAG = "requestData"
@@ -23,6 +24,5 @@ internal object BaseAppConstants {
     const val MOBILE_MONEY_TRANSACTION = "TRANSACTION"
     const val MOBILE_MONEY_STATUS_CHECK = "RE_QUERY"
 
-    const val SUCCESS = "00"
-    const val FAILURE = "02"
+
 }
