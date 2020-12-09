@@ -31,6 +31,7 @@ class ActivitySample : AppCompatActivity() {
         //Make Key Exchange
         key_exchange.setOnClickListener {
             clientLib.makeKeyExchangeRequest(this)
+            Log.e("key exchange", "Called!")
         }
 
         //Make parameter request
