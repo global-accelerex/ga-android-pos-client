@@ -7,6 +7,7 @@ import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.B
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.PARAMETERS_REQUEST_INTENT_ADDRESS
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.REQUEST_DATA_TAG
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.TerminalInformation.GHANA_TERMINAL_MODE
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.TerminalInformation.KENYA_TERMINAL_MODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.TerminalInformation.NIGERIA_TERMINAL_MODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.TerminalInformation.TERMINAL_MODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.exceptions.UnsupportedCallingComponentException
@@ -24,7 +25,7 @@ internal class ParameterRequest {
         val intent = Intent(PARAMETERS_REQUEST_INTENT_ADDRESS)
         intent.putExtra(REQUEST_DATA_TAG, jsonString)
         when (TERMINAL_MODE) {
-            NIGERIA_TERMINAL_MODE, GHANA_TERMINAL_MODE -> {
+            NIGERIA_TERMINAL_MODE, GHANA_TERMINAL_MODE, KENYA_TERMINAL_MODE -> {
                 when (callingComponent) {
                     is Activity -> {
                         callingComponent.startActivityForResult(intent, PARAMETERS_REQUEST_CODE)
