@@ -354,14 +354,16 @@ internal class TransactionRequest {
         callingComponent: Any,
         mobileOperator: MobileMoneyOperators,
         amount: Double,
-        phoneNumber: String
+        phoneNumber: String,
+        timeout: Int?
     ) {
         val transactionObject =
             MobileMoneyTransactionRequest(
                 amount = amount.toPosAmount(),
                 phoneNumber = phoneNumber,
                 mobileOperator = mobileOperator.name,
-                requestType = MOBILE_MONEY_TRANSACTION
+                requestType = MOBILE_MONEY_TRANSACTION,
+                timeout = timeout
             )
         val transJson = Gson().toJson(transactionObject)
         val intent = Intent(MOBILE_MONEY_TRANSACTION_INTENT_ADDRESS)

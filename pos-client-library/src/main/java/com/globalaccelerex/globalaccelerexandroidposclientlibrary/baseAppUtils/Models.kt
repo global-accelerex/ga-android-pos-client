@@ -110,7 +110,8 @@ internal data class MobileMoneyTransactionRequest(
     val requestType: String,
     val mobileOperator: String,
     val amount: String,
-    val phoneNumber: String
+    val phoneNumber: String,
+    val timeout: Int?
 )
 
 internal data class MobileMoneyRequeryRequest(

@@ -31,13 +31,15 @@ class MobileMoneyTransactions(countryCode: Countries) {
         mobileOperator: MobileMoneyOperators,
         amount: Double,
         phoneNumber: String,
-        callingComponent: Any
+        callingComponent: Any,
+        timeout: Int? = null
     ) {
         transactionRequest.performMobileMoneyPurchaseRequest(
             callingComponent = callingComponent,
             mobileOperator = mobileOperator,
             amount = amount,
-            phoneNumber = phoneNumber
+            phoneNumber = phoneNumber,
+            timeout = timeout
         )
     }
 
