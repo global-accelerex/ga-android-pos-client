@@ -3,7 +3,6 @@ package com.globalaccelerex.globalaccelerexandroidposclientlibrary.transactions
 import android.app.Activity
 import androidx.fragment.app.Fragment
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.TransactionRequest
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.exceptions.UnsupportedFeatureException
 
 class CardTransactions {
 

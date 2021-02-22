@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class ActivitySample : AppCompatActivity() {
 
     private val clientLib = GAClientLib.Builder()
-        .setCountryCode(Countries.KENYA)
+        .setCountryCode(Countries.GHANA)
         .build()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,10 +49,11 @@ class ActivitySample : AppCompatActivity() {
         }
         mobile_money_request.setOnClickListener {
             clientLib.mobileMoneyTransaction.purchase(
-                phoneNumber = "8133251805",
+                phoneNumber = "0263317994",
                 amount = 1.0,
                 mobileOperator = MobileMoneyOperators.MTN,
-                callingComponent = this
+                callingComponent = this,
+                timeout = 60000
             )
         }
 

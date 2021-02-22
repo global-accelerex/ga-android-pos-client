@@ -1,8 +1,10 @@
 package com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils
 
+import android.os.Parcelable
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.MOBILE_MONEY_STATUS_CHECK
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.RequestStatus
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 data class PosParameters(
     @SerializedName("BankLogo")
@@ -44,6 +46,7 @@ data class CardTransactionResponse(
     val transactionData: CardTransaction?
 )
 
+@Parcelize
 data class CardTransaction(
     val aid: String?,
     val amount: String?,
@@ -71,13 +74,14 @@ data class CardTransaction(
     val statuscode: String?,
     val terminalID: String?,
     val transactionType: String?
-)
+) : Parcelable
 
 data class MobileMoneyTransactionResponse(
     val status: RequestStatus,
-    val transactionData: MobileMoneyTransaction
+    val transactionData: MobileMoneyTransaction?
 )
 
+@Parcelize
 data class MobileMoneyTransaction(
     val amount: String?,
     val dateTime: String?,
@@ -91,7 +95,7 @@ data class MobileMoneyTransaction(
     val referenceNumber: String?,
     val responseMessage: String?,
     val stan: String?
-)
+) : Parcelable
 
 internal data class TransactionPurchaseRequest(
     val transType: String,
