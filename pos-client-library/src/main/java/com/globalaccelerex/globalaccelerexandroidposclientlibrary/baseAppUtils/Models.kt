@@ -5,6 +5,7 @@ import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.B
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.RequestStatus
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
+import java.lang.ref.PhantomReference
 
 data class PosParameters(
     @SerializedName("BankLogo")
@@ -101,6 +102,13 @@ internal data class TransactionPurchaseRequest(
     val transType: String,
     val amount: String,
     val print: String
+)
+
+internal data class CardTransactionPreAuthCompletionRequest(
+    val transType: String,
+    val amount: String,
+    val print: String,
+    val reference: String
 )
 
 internal data class TransactionPurchaseWithCashBackRequest(

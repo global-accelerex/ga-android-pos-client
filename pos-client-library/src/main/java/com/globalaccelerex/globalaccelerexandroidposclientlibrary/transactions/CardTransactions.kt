@@ -59,6 +59,32 @@ class CardTransactions {
         )
     }
 
+    fun preAuthPurchase(
+        amount: Double,
+        callingComponent: Any,
+        customPrint: Boolean
+    ) {
+        transactionRequest.performCPPreAuthTransaction(
+            amount = amount,
+            callingComponent = callingComponent,
+            customPrint = customPrint
+        )
+    }
+
+    fun preAuthCompletion(
+        amount: Double,
+        callingComponent: Any,
+        customPrint: Boolean,
+        reference: String
+    ) {
+        transactionRequest.performCPPreAuthCompletionTransaction(
+            amount = amount,
+            callingComponent = callingComponent,
+            customPrint = customPrint,
+            reference = reference
+        )
+    }
+
     /**
      * This method is used to make card refund transactions.
      * @param amount is the cost of the transaction to be made.
