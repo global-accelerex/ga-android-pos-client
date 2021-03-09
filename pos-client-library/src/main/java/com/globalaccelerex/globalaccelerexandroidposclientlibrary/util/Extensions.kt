@@ -1,5 +1,7 @@
 package com.globalaccelerex.globalaccelerexandroidposclientlibrary.util
 
-fun Double.toPosAmount(): String{
+internal fun Double.toPosAmount(): String{
     return String.format("%.2f", this)
 }
+
+

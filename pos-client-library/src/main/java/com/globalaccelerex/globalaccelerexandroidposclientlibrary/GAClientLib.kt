@@ -112,7 +112,6 @@ class GAClientLib private constructor(
         return try {
             val status = data?.getStringExtra("status")
             val jsonData = data?.getStringExtra("data")
-            Log.e("mobile money", jsonData)
             val mmTransaction =
                 Gson().fromJson(jsonData, MobileMoneyTransaction::class.java)
             MobileMoneyTransactionResponse(
@@ -120,7 +119,6 @@ class GAClientLib private constructor(
                 transactionData = mmTransaction
             )
         } catch (e: Exception) {
-            Log.e(TAG, e.message ?: "A transaction error occured.")
             null
         }
     }

@@ -12,7 +12,7 @@ Any application making use of this library should run on Global Accelerex androi
 ## Installation
 You do not need to clone this repository or download the files. Just add the following lines to your app's `build.gradle`:
 
-`implementation 'com.globalaccelerex.android:ga-android-pos-client:1.0.1'`
+`implementation 'com.globalaccelerex.android:ga-android-pos-client:1.0.2'`
 
 ## Setup
 

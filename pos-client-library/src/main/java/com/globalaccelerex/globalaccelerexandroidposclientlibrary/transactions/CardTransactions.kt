@@ -3,7 +3,6 @@ package com.globalaccelerex.globalaccelerexandroidposclientlibrary.transactions
 import android.app.Activity
 import androidx.fragment.app.Fragment
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.TransactionRequest
-import com.globalaccelerex.globalaccelerexandroidposclientlibrary.exceptions.UnsupportedFeatureException
 
 class CardTransactions {
 
@@ -57,6 +56,32 @@ class CardTransactions {
             callingComponent = callingComponent,
             customPrint = customPrint,
             cashbackAmount = cashBackAmount
+        )
+    }
+
+    fun preAuthPurchase(
+        amount: Double,
+        callingComponent: Any,
+        customPrint: Boolean
+    ) {
+        transactionRequest.performCPPreAuthTransaction(
+            amount = amount,
+            callingComponent = callingComponent,
+            customPrint = customPrint
+        )
+    }
+
+    fun preAuthCompletion(
+        amount: Double,
+        callingComponent: Any,
+        customPrint: Boolean,
+        reference: String
+    ) {
+        transactionRequest.performCPPreAuthCompletionTransaction(
+            amount = amount,
+            callingComponent = callingComponent,
+            customPrint = customPrint,
+            reference = reference
         )
     }
 

@@ -11,6 +11,7 @@ import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.B
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.TRANSACTION_REQUEST_INTENT_ADDRESS
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.TRANSACTION_TYPE_CARD_BALANCE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.TRANSACTION_TYPE_PRE_AUTH_PURCHASE
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.TRANSACTION_TYPE_PRE_AUTH_PURCHASE_COMPLETION
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.TRANSACTION_TYPE_PURCHASE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.TRANSACTION_TYPE_PURCHASE_WITH_CASH_BACK
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.TRANSACTION_TYPE_REFUND
@@ -25,6 +26,8 @@ import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequest
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CNP_PURCHASE_WITH_CB_REQUEST_CODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CNP_REFUND_REQUEST_CODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CNP_REVERSAL_REQUEST_CODE
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CP_PREAUTH_COMPLETION_REQUEST_CODE
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CP_PREAUTH_REQUEST_CODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CP_REFUND_REQUEST_CODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CP_REVERSAL_REQUEST_CODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.MOBILE_MONEY_PURCHASE_REQUEST_CODE
@@ -143,6 +146,59 @@ internal class TransactionRequest {
         }
     }
 
+    fun performCPPreAuthTransaction(
+        amount: Double,
+        callingComponent: Any,
+        customPrint: Boolean
+    ) {
+        val transactionObject =
+            TransactionPurchaseRequest(
+                transType = TRANSACTION_TYPE_PRE_AUTH_PURCHASE,
+                amount = amount.toPosAmount(),
+                print = (!customPrint).toString()
+            )
+
+        val transJson = Gson().toJson(transactionObject)
+        val intent = Intent(TRANSACTION_REQUEST_INTENT_ADDRESS)
+        intent.putExtra(REQUEST_DATA_TAG, transJson)
+        when (callingComponent) {
+            is Fragment -> {
+                callingComponent.startActivityForResult(intent, CP_PREAUTH_REQUEST_CODE)
+            }
+            is Activity -> {
+                callingComponent.startActivityForResult(intent, CP_PREAUTH_REQUEST_CODE)
+            }
+            else -> throw UnsupportedCallingComponentException("Unsupported calling component.")
+        }
+    }
+
+    fun performCPPreAuthCompletionTransaction(
+        amount: Double,
+        callingComponent: Any,
+        customPrint: Boolean,
+        reference: String
+    ) {
+        val transactionObject =
+            CardTransactionPreAuthCompletionRequest(
+                transType = TRANSACTION_TYPE_PRE_AUTH_PURCHASE_COMPLETION,
+                amount = amount.toPosAmount(),
+                print = (!customPrint).toString(),
+                reference = reference
+            )
+        val transJson = Gson().toJson(transactionObject)
+        val intent = Intent(TRANSACTION_REQUEST_INTENT_ADDRESS)
+        intent.putExtra(REQUEST_DATA_TAG, transJson)
+        when (callingComponent) {
+            is Fragment -> {
+                callingComponent.startActivityForResult(intent, CP_PREAUTH_COMPLETION_REQUEST_CODE)
+            }
+            is Activity -> {
+                callingComponent.startActivityForResult(intent, CP_PREAUTH_COMPLETION_REQUEST_CODE)
+            }
+            else -> throw UnsupportedCallingComponentException("Unsupported calling component.")
+        }
+    }
+
     fun performCNPTransactionRequest(
         cardNumber: String,
         expiryDate: String,
@@ -242,7 +298,7 @@ internal class TransactionRequest {
     ) {
         val transactionObject =
             CardNotPresentPreAuthCompletionRequest(
-                transType = TRANSACTION_TYPE_PRE_AUTH_PURCHASE,
+                transType = TRANSACTION_TYPE_PRE_AUTH_PURCHASE_COMPLETION,
                 amount = amount.toPosAmount(),
                 print = (!customPrint).toString(),
                 cardNumber = cardNumber,
@@ -354,14 +410,16 @@ internal class TransactionRequest {
         callingComponent: Any,
         mobileOperator: MobileMoneyOperators,
         amount: Double,
-        phoneNumber: String
+        phoneNumber: String,
+        timeout: Int?
     ) {
         val transactionObject =
             MobileMoneyTransactionRequest(
                 amount = amount.toPosAmount(),
                 phoneNumber = phoneNumber,
                 mobileOperator = mobileOperator.name,
-                requestType = MOBILE_MONEY_TRANSACTION
+                requestType = MOBILE_MONEY_TRANSACTION,
+                timeout = timeout
             )
         val transJson = Gson().toJson(transactionObject)
         val intent = Intent(MOBILE_MONEY_TRANSACTION_INTENT_ADDRESS)
