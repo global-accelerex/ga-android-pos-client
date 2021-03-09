@@ -5,7 +5,6 @@ import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.B
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.RequestStatus
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
-import java.lang.ref.PhantomReference
 
 data class PosParameters(
     @SerializedName("BankLogo")
@@ -39,12 +38,14 @@ data class PosParameters(
 /**
  * This is a response class to card transactions made.
  *
- * @param requestStatus: This indicates the status of the transaction made from the POS. Refer to docs to find out the different codes and their meaning
+ * @param status: This indicates the status of the transaction made from the POS. Refer to docs to find out the different codes and their meaning
  * @param transactionData: This contains the card details and more information about the transaction that has been made
+ * @param message: This contains any extra message returned from the base application about the transaction.
  * */
 data class CardTransactionResponse(
-    val requestStatus: RequestStatus?,
-    val transactionData: CardTransaction?
+    val status: RequestStatus,
+    val transactionData: CardTransaction?,
+    val message: String? = null
 )
 
 @Parcelize

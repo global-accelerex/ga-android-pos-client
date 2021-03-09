@@ -91,10 +91,12 @@ class GAClientLib private constructor(
         return try {
             val status = data?.getStringExtra("status")
             val jsonData = data?.getStringExtra("data")
+            val message = data?.getStringExtra("message")
             val cardTransaction = Gson().fromJson(jsonData, CardTransaction::class.java)
             CardTransactionResponse(
-                requestStatus = ParsingUtil.getStatus(status),
-                transactionData = cardTransaction
+                status = ParsingUtil.getStatus(status),
+                transactionData = cardTransaction,
+                message = message
             )
         } catch (e: Exception) {
             Log.e(TAG, e.message ?: "A transaction error occured.")
