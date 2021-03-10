@@ -137,6 +137,7 @@ internal data class MobileMoneyRequeryRequest(
 internal data class CardNotPresentPurchaseRequest(
     val cardNumber: String,
     val expiryDate: String,
+    val cvv: String,
     val print: String,
     val amount: String,
     var transType: String = ""

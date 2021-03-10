@@ -35,6 +35,7 @@ class CardNotPresentTransactions(countryCode: Countries) {
         amount: Double,
         cardNumber: String,
         cardExpiryDate: String,
+        cvv: String,
         customPrint: Boolean,
         callingComponent: Any
     ) {
@@ -45,6 +46,7 @@ class CardNotPresentTransactions(countryCode: Countries) {
             amount = amount,
             expiryDate = cardExpiryDate,
             customPrint = customPrint,
+            cvv = cvv,
             callingComponent = callingComponent
         )
     }
@@ -107,6 +109,7 @@ class CardNotPresentTransactions(countryCode: Countries) {
         cardNumber: String,
         cardExpiryDate: String,
         customPrint: Boolean,
+        cvv: String,
         callingComponent: Any
     ) {
         require(cardNumber.length in 12..18) { "Card Number should be between 12 and 18 digits" }
@@ -116,6 +119,7 @@ class CardNotPresentTransactions(countryCode: Countries) {
             expiryDate = cardExpiryDate,
             amount = amount,
             customPrint = customPrint,
+            cvv = cvv,
             callingComponent = callingComponent
         )
     }
@@ -206,6 +210,7 @@ class CardNotPresentTransactions(countryCode: Countries) {
         cardNumber: String,
         cardExpiryDate: String,
         customPrint: Boolean,
+        cvv: String,
         callingComponent: Any
     ) {
         require(cardNumber.length in 12..18) { "Card Number should be between 12 and 18 digits" }
@@ -215,7 +220,8 @@ class CardNotPresentTransactions(countryCode: Countries) {
             expiryDate = cardExpiryDate,
             amount = amount,
             customPrint = customPrint,
-            callingComponent = callingComponent
+            callingComponent = callingComponent,
+            cvv = cvv
         )
     }
 

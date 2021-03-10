@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class ActivitySample : AppCompatActivity() {
 
     private val clientLib = GAClientLib.Builder()
-        .setCountryCode(Countries.GHANA)
+        .setCountryCode(Countries.KENYA)
         .build()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,10 +41,13 @@ class ActivitySample : AppCompatActivity() {
 
         //Make Card Present Transactions (CP)
         transaction_request.setOnClickListener {
-            clientLib.cardTransactions.purchase(
+            clientLib.cardNotPresentTransactions.purchase(
                 amount = 0.01,
+                cardExpiryDate = "2309",
+                cardNumber = "4478150128463153",
                 callingComponent = this,
-                customPrint = true
+                customPrint = true,
+                cvv = "699"
             )
         }
         mobile_money_request.setOnClickListener {
@@ -73,6 +76,11 @@ class ActivitySample : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        val status = data?.extras?.getString("status") ?: ""
+        val jsonData = data?.extras?.getString("data") ?: ""
+        val message = data?.extras?.getString("message") ?: ""
+
+       // Log.e("activity sample", "$status $jsonData $message")
 
         //Note that the Request key will always match the transaction type with "REQUEST_CODE" appended to it.
 
@@ -83,6 +91,10 @@ class ActivitySample : AppCompatActivity() {
             }
             if (requestCode == GaRequestKeys.KEY_EXCHANGE_REQUEST_CODE) {
                 Log.e("Key exchange", "Key exchange successful!")
+            }
+            if (requestCode == GaRequestKeys.CNP_PURCHASE_REQUEST_CODE) {
+                val cardResponseDetails = clientLib.getCardTransactionResponse(data)
+                Log.e("Purchase response", "$cardResponseDetails")
             }
             if (requestCode == GaRequestKeys.CP_PURCHASE_REQUEST_CODE) {
                 val cardResponseDetails = clientLib.getCardTransactionResponse(data)

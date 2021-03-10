@@ -203,6 +203,7 @@ internal class TransactionRequest {
         cardNumber: String,
         expiryDate: String,
         amount: Double,
+        cvv: String,
         callingComponent: Any,
         customPrint: Boolean
     ) {
@@ -212,6 +213,7 @@ internal class TransactionRequest {
                 amount = amount.toPosAmount(),
                 print = (!customPrint).toString(),
                 cardNumber = cardNumber,
+                cvv = cvv,
                 expiryDate = expiryDate
             )
         val transJson = Gson().toJson(transactionObject)
@@ -263,6 +265,7 @@ internal class TransactionRequest {
         cardNumber: String,
         expiryDate: String,
         amount: Double,
+        cvv: String,
         callingComponent: Any,
         customPrint: Boolean
     ) {
@@ -272,7 +275,8 @@ internal class TransactionRequest {
                 amount = amount.toPosAmount(),
                 print = (!customPrint).toString(),
                 cardNumber = cardNumber,
-                expiryDate = expiryDate
+                expiryDate = expiryDate,
+                cvv = cvv
             )
         val transJson = Gson().toJson(transactionObject)
         val intent = Intent(CARD_NOT_PRESENT_TRANSACTION_INTENT)
@@ -350,6 +354,7 @@ internal class TransactionRequest {
         cardNumber: String,
         expiryDate: String,
         amount: Double,
+        cvv: String,
         callingComponent: Any,
         customPrint: Boolean
     ) {
@@ -359,7 +364,8 @@ internal class TransactionRequest {
                 amount = amount.toPosAmount(),
                 print = (!customPrint).toString(),
                 cardNumber = cardNumber,
-                expiryDate = expiryDate
+                expiryDate = expiryDate,
+                cvv = cvv
             )
         val transJson = Gson().toJson(transactionObject)
         val intent = Intent(CARD_NOT_PRESENT_TRANSACTION_INTENT)
