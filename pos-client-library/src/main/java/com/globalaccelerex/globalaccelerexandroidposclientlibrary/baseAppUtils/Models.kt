@@ -147,6 +147,7 @@ internal data class CardNotPresentCashBackRequest(
     val cardNumber: String,
     val cashBackAmount: String,
     val expiryDate: String,
+    val cvv: String,
     val print: String,
     val amount: String,
     var transType: String = ""
@@ -156,6 +157,7 @@ internal data class CardNotPresentCashBackRequest(
 internal data class CardNotPresentCardBalanceRequest(
     val cardNumber: String,
     val expiryDate: String,
+    val cvv: String,
     val print: String,
     var transType: String = ""
 )
@@ -164,6 +166,7 @@ internal data class CardNotPresentReversalRequest(
     val cardNumber: String,
     val expiryDate: String,
     val print: String,
+    val cvv: String,
     val amount: String,
     val rrn: String,
     var transType: String = ""
@@ -172,6 +175,7 @@ internal data class CardNotPresentReversalRequest(
 internal data class CardNotPresentPreAuthCompletionRequest(
     val cardNumber: String,
     val expiryDate: String,
+    val cvv: String,
     val print: String,
     val amount: String,
     val rrn: String,

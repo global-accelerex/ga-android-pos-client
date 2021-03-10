@@ -234,6 +234,7 @@ internal class TransactionRequest {
         cardNumber: String,
         expiryDate: String,
         amount: Double,
+        cvv: String,
         callingComponent: Any,
         cashbackAmount: Double,
         customPrint: Boolean
@@ -243,6 +244,7 @@ internal class TransactionRequest {
                 transType = TRANSACTION_TYPE_PURCHASE_WITH_CASH_BACK,
                 amount = amount.toPosAmount(),
                 print = (!customPrint).toString(),
+                cvv = cvv,
                 cashBackAmount = cashbackAmount.toPosAmount(),
                 cardNumber = cardNumber,
                 expiryDate = expiryDate
@@ -296,6 +298,7 @@ internal class TransactionRequest {
         cardNumber: String,
         expiryDate: String,
         amount: Double,
+        cvv: String,
         reference: String,
         callingComponent: Any,
         customPrint: Boolean
@@ -307,6 +310,7 @@ internal class TransactionRequest {
                 print = (!customPrint).toString(),
                 cardNumber = cardNumber,
                 expiryDate = expiryDate,
+                cvv = cvv,
                 rrn = reference
             )
         val transJson = Gson().toJson(transactionObject)
@@ -326,6 +330,7 @@ internal class TransactionRequest {
     fun performCNPCardBalanceTransactionRequest(
         cardNumber: String,
         expiryDate: String,
+        cvv: String,
         callingComponent: Any,
         customPrint: Boolean
     ) {
@@ -334,7 +339,8 @@ internal class TransactionRequest {
                 transType = TRANSACTION_TYPE_CARD_BALANCE,
                 print = (!customPrint).toString(),
                 cardNumber = cardNumber,
-                expiryDate = expiryDate
+                expiryDate = expiryDate,
+                cvv = cvv
             )
         val transJson = Gson().toJson(transactionObject)
         val intent = Intent(CARD_NOT_PRESENT_TRANSACTION_INTENT)
@@ -385,6 +391,7 @@ internal class TransactionRequest {
         cardNumber: String,
         expiryDate: String,
         amount: Double,
+        cvv: String,
         callingComponent: Any,
         customPrint: Boolean,
         reference: String
@@ -396,7 +403,8 @@ internal class TransactionRequest {
                 print = (!customPrint).toString(),
                 cardNumber = cardNumber,
                 expiryDate = expiryDate,
-                rrn = reference
+                rrn = reference,
+                cvv = cvv
             )
         val transJson = Gson().toJson(transactionObject)
         val intent = Intent(CARD_NOT_PRESENT_TRANSACTION_INTENT)

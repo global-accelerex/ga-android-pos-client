@@ -75,13 +75,13 @@ class ReceiptFormat(private val context: Context) {
         printFields.clear()
         printFields.add(
             PrintField(
-                path!!,
+                path?:"",
                 stringFields = customerStringFields
             )
         )
         printFields.add(
             PrintField(
-                path!!,
+                path?:"",
                 stringFields = merchantStringFields
             )
         )
