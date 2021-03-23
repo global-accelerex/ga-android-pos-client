@@ -16,6 +16,7 @@ import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.B
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.TRANSACTION_TYPE_PURCHASE_WITH_CASH_BACK
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.TRANSACTION_TYPE_REFUND
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.TRANSACTION_TYPE_REVERSAL
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.TerminalInformation.KENYA_TERMINAL_MODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.exceptions.UnsupportedCallingComponentException
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CP_PURCHASE_REQUEST_CODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CP_PURCHASE_WITH_CASHBACK_REQUEST_CODE
@@ -122,16 +123,24 @@ internal class TransactionRequest {
 
     fun performCPRefundRequest(
         amount: Double,
-        rrn: String,
+        rrn: String? = null,
         customPrint: Boolean,
         callingComponent: Any
     ) {
-        val transactionObject = CardReversalTransactionObject(
-            amount = amount.toPosAmount(),
-            rrn = rrn,
-            print = (!customPrint).toString(),
-            transType = TRANSACTION_TYPE_REFUND
-        )
+        val transactionObject = if (TerminalInformation.TERMINAL_MODE == KENYA_TERMINAL_MODE) {
+            CardRefundTransactionObject(
+                    amount = amount.toPosAmount(),
+                    print = (!customPrint).toString(),
+                    transType = TRANSACTION_TYPE_REFUND
+            )
+        } else {
+            CardRefundNoRRNTransactionObject(
+                    amount = amount.toPosAmount(),
+                    rrn = rrn?:"",
+                    print = (!customPrint).toString(),
+                    transType = TRANSACTION_TYPE_REFUND
+            )
+        }
         val transJson = Gson().toJson(transactionObject)
         val intent = Intent(TRANSACTION_REQUEST_INTENT_ADDRESS)
         intent.putExtra(REQUEST_DATA_TAG, transJson)

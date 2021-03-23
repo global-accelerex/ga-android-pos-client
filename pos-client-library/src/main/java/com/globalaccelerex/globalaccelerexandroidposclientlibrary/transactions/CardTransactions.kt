@@ -121,7 +121,7 @@ class CardTransactions {
         amount: Double,
         callingComponent: Any,
         customPrint: Boolean,
-        rrn: String
+        rrn: String?=null
     ) {
         transactionRequest.performCPRefundRequest(
             amount = amount,

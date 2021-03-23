@@ -10,7 +10,7 @@ internal object TerminalInformation {
     const val GHANA_TERMINAL_MODE = "ghana_terminal_mode"
     const val KENYA_TERMINAL_MODE = "kenya_terminal_mode"
 
-    fun setTerminalMode( country: Countries) {
+    fun setTerminalMode(country: Countries) {
         TERMINAL_MODE = when (country) {
             Countries.NIGERIA -> {
                 NIGERIA_TERMINAL_MODE
