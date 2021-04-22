@@ -75,7 +75,8 @@ data class CardTransaction(
         val stan: String?,
         val statuscode: String?,
         val terminalID: String?,
-        val transactionType: String?
+        val balance: String?,
+    val transactionType: String?
 ) : Parcelable
 
 data class MobileMoneyTransactionResponse(
