@@ -17,6 +17,7 @@ object GaRequestKeys {
     const val CNP_REFUND_REQUEST_CODE = 1012
     const val CNP_REVERSAL_REQUEST_CODE = 1013
     const val PRINTING_REQUEST_CODE = 1014
+    const val CP_CARD_BALANCE_REQUEST_CODE = 1015
 }
 
 object TransactionStatusCodes {

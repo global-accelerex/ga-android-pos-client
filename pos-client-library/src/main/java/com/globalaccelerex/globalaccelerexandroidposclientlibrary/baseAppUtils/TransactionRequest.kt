@@ -25,6 +25,7 @@ import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequest
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CNP_PURCHASE_WITH_CB_REQUEST_CODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CNP_REFUND_REQUEST_CODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CNP_REVERSAL_REQUEST_CODE
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CP_CARD_BALANCE_REQUEST_CODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CP_REFUND_REQUEST_CODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CP_REVERSAL_REQUEST_CODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.MOBILE_MONEY_PURCHASE_REQUEST_CODE
@@ -398,6 +399,31 @@ internal class TransactionRequest {
             }
             is Activity -> {
                 callingComponent.startActivityForResult(intent, MOBILE_MONEY_STATUS_CHECK_REQUEST_CODE)
+            }
+            else -> throw UnsupportedCallingComponentException("Unsupported calling component.")
+        }
+    }
+
+    fun performCPBalanceRequest(
+        callingComponent: Any,
+        customPrint: Boolean
+    ) {
+        val transactionObject =
+            TransactionPurchaseRequest(
+                transType = TRANSACTION_TYPE_CARD_BALANCE,
+                amount = "0.00",
+                print = customPrint.toString()
+            )
+        val transJson = Gson().toJson(transactionObject)
+        val intent = Intent(TRANSACTION_REQUEST_INTENT_ADDRESS)
+        intent.putExtra(REQUEST_DATA_TAG, transJson)
+
+        when (callingComponent) {
+            is Fragment -> {
+                callingComponent.startActivityForResult(intent, CP_CARD_BALANCE_REQUEST_CODE)
+            }
+            is Activity -> {
+                callingComponent.startActivityForResult(intent, CP_CARD_BALANCE_REQUEST_CODE)
             }
             else -> throw UnsupportedCallingComponentException("Unsupported calling component.")
         }

@@ -70,6 +70,7 @@ data class CardTransaction(
     val stan: String?,
     val statuscode: String?,
     val terminalID: String?,
+    val balance: String?,
     val transactionType: String?
 )
 
