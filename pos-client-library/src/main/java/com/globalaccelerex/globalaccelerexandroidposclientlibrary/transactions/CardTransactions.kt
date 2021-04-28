@@ -121,11 +121,29 @@ class CardTransactions {
         amount: Double,
         callingComponent: Any,
         customPrint: Boolean,
-        rrn: String
+        rrn: String?=null
     ) {
         transactionRequest.performCPRefundRequest(
             amount = amount,
             rrn = rrn,
+            callingComponent = callingComponent,
+            customPrint = customPrint
+        )
+    }
+
+    /**
+     * This method is used to check card balance.
+     * @param callingComponent The calling component is the class from which this method is called.
+     *          It should be of type [Activity], [Fragment] or their subclasses.
+     * @param customPrint This field indicates if you want to handle the printing of the transaction details by yourself or
+     *         use the POS default.
+     * */
+    fun balance(
+        callingComponent: Any,
+        customPrint: Boolean
+    ) {
+
+        transactionRequest.performCPBalanceRequest(
             callingComponent = callingComponent,
             customPrint = customPrint
         )

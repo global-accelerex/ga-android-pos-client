@@ -16,6 +16,7 @@ import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.B
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.TRANSACTION_TYPE_PURCHASE_WITH_CASH_BACK
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.TRANSACTION_TYPE_REFUND
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.BaseAppConstants.TRANSACTION_TYPE_REVERSAL
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.baseAppUtils.TerminalInformation.KENYA_TERMINAL_MODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.exceptions.UnsupportedCallingComponentException
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CP_PURCHASE_REQUEST_CODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CP_PURCHASE_WITH_CASHBACK_REQUEST_CODE
@@ -28,6 +29,7 @@ import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequest
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CNP_REVERSAL_REQUEST_CODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CP_PREAUTH_COMPLETION_REQUEST_CODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CP_PREAUTH_REQUEST_CODE
+import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CP_CARD_BALANCE_REQUEST_CODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CP_REFUND_REQUEST_CODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.CP_REVERSAL_REQUEST_CODE
 import com.globalaccelerex.globalaccelerexandroidposclientlibrary.util.GaRequestKeys.MOBILE_MONEY_PURCHASE_REQUEST_CODE
@@ -122,16 +124,24 @@ internal class TransactionRequest {
 
     fun performCPRefundRequest(
         amount: Double,
-        rrn: String,
+        rrn: String? = null,
         customPrint: Boolean,
         callingComponent: Any
     ) {
-        val transactionObject = CardReversalTransactionObject(
-            amount = amount.toPosAmount(),
-            rrn = rrn,
-            print = (!customPrint).toString(),
-            transType = TRANSACTION_TYPE_REFUND
-        )
+        val transactionObject = if (TerminalInformation.TERMINAL_MODE == KENYA_TERMINAL_MODE) {
+            CardRefundTransactionObject(
+                    amount = amount.toPosAmount(),
+                    print = (!customPrint).toString(),
+                    transType = TRANSACTION_TYPE_REFUND
+            )
+        } else {
+            CardRefundNoRRNTransactionObject(
+                    amount = amount.toPosAmount(),
+                    rrn = rrn?:"",
+                    print = (!customPrint).toString(),
+                    transType = TRANSACTION_TYPE_REFUND
+            )
+        }
         val transJson = Gson().toJson(transactionObject)
         val intent = Intent(TRANSACTION_REQUEST_INTENT_ADDRESS)
         intent.putExtra(REQUEST_DATA_TAG, transJson)
@@ -203,6 +213,7 @@ internal class TransactionRequest {
         cardNumber: String,
         expiryDate: String,
         amount: Double,
+        cvv: String,
         callingComponent: Any,
         customPrint: Boolean
     ) {
@@ -212,6 +223,7 @@ internal class TransactionRequest {
                 amount = amount.toPosAmount(),
                 print = (!customPrint).toString(),
                 cardNumber = cardNumber,
+                cvv = cvv,
                 expiryDate = expiryDate
             )
         val transJson = Gson().toJson(transactionObject)
@@ -232,6 +244,7 @@ internal class TransactionRequest {
         cardNumber: String,
         expiryDate: String,
         amount: Double,
+        cvv: String,
         callingComponent: Any,
         cashbackAmount: Double,
         customPrint: Boolean
@@ -241,6 +254,7 @@ internal class TransactionRequest {
                 transType = TRANSACTION_TYPE_PURCHASE_WITH_CASH_BACK,
                 amount = amount.toPosAmount(),
                 print = (!customPrint).toString(),
+                cvv = cvv,
                 cashBackAmount = cashbackAmount.toPosAmount(),
                 cardNumber = cardNumber,
                 expiryDate = expiryDate
@@ -263,6 +277,7 @@ internal class TransactionRequest {
         cardNumber: String,
         expiryDate: String,
         amount: Double,
+        cvv: String,
         callingComponent: Any,
         customPrint: Boolean
     ) {
@@ -272,7 +287,8 @@ internal class TransactionRequest {
                 amount = amount.toPosAmount(),
                 print = (!customPrint).toString(),
                 cardNumber = cardNumber,
-                expiryDate = expiryDate
+                expiryDate = expiryDate,
+                cvv = cvv
             )
         val transJson = Gson().toJson(transactionObject)
         val intent = Intent(CARD_NOT_PRESENT_TRANSACTION_INTENT)
@@ -292,6 +308,7 @@ internal class TransactionRequest {
         cardNumber: String,
         expiryDate: String,
         amount: Double,
+        cvv: String,
         reference: String,
         callingComponent: Any,
         customPrint: Boolean
@@ -303,6 +320,7 @@ internal class TransactionRequest {
                 print = (!customPrint).toString(),
                 cardNumber = cardNumber,
                 expiryDate = expiryDate,
+                cvv = cvv,
                 rrn = reference
             )
         val transJson = Gson().toJson(transactionObject)
@@ -322,6 +340,7 @@ internal class TransactionRequest {
     fun performCNPCardBalanceTransactionRequest(
         cardNumber: String,
         expiryDate: String,
+        cvv: String,
         callingComponent: Any,
         customPrint: Boolean
     ) {
@@ -330,7 +349,8 @@ internal class TransactionRequest {
                 transType = TRANSACTION_TYPE_CARD_BALANCE,
                 print = (!customPrint).toString(),
                 cardNumber = cardNumber,
-                expiryDate = expiryDate
+                expiryDate = expiryDate,
+                cvv = cvv
             )
         val transJson = Gson().toJson(transactionObject)
         val intent = Intent(CARD_NOT_PRESENT_TRANSACTION_INTENT)
@@ -350,6 +370,7 @@ internal class TransactionRequest {
         cardNumber: String,
         expiryDate: String,
         amount: Double,
+        cvv: String,
         callingComponent: Any,
         customPrint: Boolean
     ) {
@@ -359,7 +380,8 @@ internal class TransactionRequest {
                 amount = amount.toPosAmount(),
                 print = (!customPrint).toString(),
                 cardNumber = cardNumber,
-                expiryDate = expiryDate
+                expiryDate = expiryDate,
+                cvv = cvv
             )
         val transJson = Gson().toJson(transactionObject)
         val intent = Intent(CARD_NOT_PRESENT_TRANSACTION_INTENT)
@@ -379,6 +401,7 @@ internal class TransactionRequest {
         cardNumber: String,
         expiryDate: String,
         amount: Double,
+        cvv: String,
         callingComponent: Any,
         customPrint: Boolean,
         reference: String
@@ -390,7 +413,8 @@ internal class TransactionRequest {
                 print = (!customPrint).toString(),
                 cardNumber = cardNumber,
                 expiryDate = expiryDate,
-                rrn = reference
+                rrn = reference,
+                cvv = cvv
             )
         val transJson = Gson().toJson(transactionObject)
         val intent = Intent(CARD_NOT_PRESENT_TRANSACTION_INTENT)
@@ -456,6 +480,31 @@ internal class TransactionRequest {
             }
             is Activity -> {
                 callingComponent.startActivityForResult(intent, MOBILE_MONEY_STATUS_CHECK_REQUEST_CODE)
+            }
+            else -> throw UnsupportedCallingComponentException("Unsupported calling component.")
+        }
+    }
+
+    fun performCPBalanceRequest(
+        callingComponent: Any,
+        customPrint: Boolean
+    ) {
+        val transactionObject =
+            TransactionPurchaseRequest(
+                transType = TRANSACTION_TYPE_CARD_BALANCE,
+                amount = "0.00",
+                print = customPrint.toString()
+            )
+        val transJson = Gson().toJson(transactionObject)
+        val intent = Intent(TRANSACTION_REQUEST_INTENT_ADDRESS)
+        intent.putExtra(REQUEST_DATA_TAG, transJson)
+
+        when (callingComponent) {
+            is Fragment -> {
+                callingComponent.startActivityForResult(intent, CP_CARD_BALANCE_REQUEST_CODE)
+            }
+            is Activity -> {
+                callingComponent.startActivityForResult(intent, CP_CARD_BALANCE_REQUEST_CODE)
             }
             else -> throw UnsupportedCallingComponentException("Unsupported calling component.")
         }
